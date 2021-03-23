@@ -9,11 +9,11 @@ export default class TutorialsSimdController extends Controller {
         console.log(this.htmlSafeContiguosArray);
 
         requestAnimationFrame(() => {
-            $('#arch-size-definition').popover({
+            $('#common-sizes-definition').popover({
                 placement: 'top',
-                title: 'Architecture sizes',
+                title: 'Different architectures',
                 html: true,
-                content: this.htmlSafeRegisterSize.string
+                content: this.htmlSafeCommonSizes.string
             });
 
             $('#contiguous-array-definition').popover({
@@ -32,11 +32,10 @@ export default class TutorialsSimdController extends Controller {
         });
     }
 
-    get htmlSafeRegisterSize(){
+    get htmlSafeCommonSizes(){
         return htmlSafe(`
         <p>
-            Some older architectures have 32 bits and even smaller can be found in embedded systems that are designed to do a very limited amout 
-            of tasks (this is done to reduce energy consumption and other cost reasons). Examples can be found in toys.
+            Unless you have an very old CPU which you might have a 32bit operating system
         </p>`);
     }
 

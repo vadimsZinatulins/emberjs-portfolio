@@ -2,7 +2,86 @@
     <h1>SIMD (A.K.A Instrinsic Instructions)</h1>
     <hr>
     <h2>Introduction</h2>
-    <p style="text-align: justify;">
+    <p>
+        This is a partical introduction to SIMD in C++. Other languages such as C# also allow this kind of operations but require their own
+        API to do so. I will assume that you are comfortable to read simple C++ code and have a basic understanding of pointers.
+    </p>
+    <h2>Data types recap</h2>
+    <p>
+        I'm sure that somewhere somehow you have heard that different data tyes have different sizes. For example <code>char</code> is 1 byte (8 bits),
+        <code>float</code> and <code>ints</code> are 4 bytes (32 bits) and <code>longs</code> and <code>doubles</code> are 8 bytes (64 bits) adn yes
+        it also depends on machine and operating system but nowadays it is the most common. So why does this matter? Well because with instrinsic operations
+        you have a new primitive types which are 16 bytes wide (126 bits) and 32 bytes wide (256 bits). CPUs actually has a special register for them:
+        <ul>
+            <li>XMM0-XMM15 which are 16 bytes wide (SSE data types)</li>
+            <li>YMM0-YMM15 which are 32 bytes wide (AVX data types)</li>
+        </ul>
+        <h4>SSE data types</h4>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>__m128</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>4 x 32 bit float</td>
+                </tr>
+                <tr>
+                    <td>__m128i</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>4 x 32 bit integer</td>
+                </tr>
+                <tr>
+                    <td>__m128d</td>
+                    <td colspan="2">double</td>
+                    <td colspan="2">double</td>
+                    <td>2 x 64 bit double</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>AVX data types</h4>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>__m256</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>float</td>
+                    <td>8 x 32 bit float</td>
+                </tr>
+                <tr>
+                    <td>__m256i</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>int</td>
+                    <td>8 x 32 bit integer</td>
+                </tr>
+                <tr>
+                    <td>__m256d</td>
+                    <td colspan="2">double</td>
+                    <td colspan="2">double</td>
+                    <td colspan="2">double</td>
+                    <td colspan="2">double</td>
+                    <td>4 x 64 bit double</td>
+                </tr>
+            </tbody>
+        </table>
+    </p>
+    {{!-- <p style="text-align: justify;">
         When it comes to increase the performance, people generally think of fast data structures and algorithms or multithreading thus relying 
         CPUs available cores.
     </p>
@@ -29,4 +108,17 @@
         register which means you can fit there 16 <code>floats</code> or <code>ints</code> and 8 <code>doubles</code> or <code>longs</code>. Here I will only cover 128 bit
         since the convertion between 128 bit and 256 bit or other is mostly in changing the prefix (from <code>__m128</code> to <code>__m256</code> as an example).
     </p>
+    <div class="alert alert-info">
+        <strong>Note:</strong>
+        <p>
+            When talking about 128 bit registers (4 scalar) operations we use the term <b>SSE</b>. For 256 bit registers (8 scalers) operatsions we use 
+            the term <b>AVX</b>.
+        </p>
+    </div>
+    <p>
+        Lets take a look at these operations with a simple program sample:
+    </p>
+    <pre><code>#include &#60;nmmintrin.h&#62;   // For SSE
+#include &#60;immintrin.h&#62;   // For AVX
+    </code></pre> --}}
 </div>
