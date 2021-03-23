@@ -1,0 +1,32 @@
+<div class="container pt-2">
+    <h1>SIMD (A.K.A Instrinsic Instructions)</h1>
+    <hr>
+    <h2>Introduction</h2>
+    <p style="text-align: justify;">
+        When it comes to increase the performance, people generally think of fast data structures and algorithms or multithreading thus relying 
+        CPUs available cores.
+    </p>
+    <img src="/images/tutorials/simd/_1.png" class="mx-auto d-block" width="600px">
+    <p>
+        There is a less know form of parallelism at CPU instruction level called Instrinsic Instruction which allow you to operate on 4 inputs
+        with a single instruction and gerenate 4 outputs. The maximum amount of inputs actually depends on the CPU. Some variations are 4, 8 and 16 
+        inputs. Generally all modern CPUs support atleast 4 inputs but if you want to know how far you can go with your CPU you can check this
+        <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">list</a>.
+    </p>
+    <p>
+        At very low level every CPU uses registers to temporarily store data. Nowadays most CPU are 64 bit meaning that their registers are 64 bit in 
+        <a id="arch-size-definition" data-trigger="focus" role="button" href="#!" data-toggle="popover">size</a>. Generally <code>floats</code> and 
+        <code>ints</code> are 32 bit wide and you can fit two in a single register but the CPU will only operate on them one at the time.
+    </p>
+    <img src="/images/tutorials/simd/_2.png" class="mx-auto d-block" width="600px">
+    <p>
+        We can compute both floats (or ints) at the same time using special registers. There are 128 bit wide wich means you can fill it with 4 floats
+        and the operation will be performed on them all at the same time.
+    </p>
+    <img src="/images/tutorials/simd/_3.png" class="mx-auto d-block" width="600px">
+    <p>
+        But if you are dealing with <code>doubles</code> or <code>longs</code> you would only be able to fit 2 in these registers. There are already CPUs that have 512 bit
+        register which means you can fit there 16 <code>floats</code> or <code>ints</code> and 8 <code>doubles</code> or <code>longs</code>. Here I will only cover 128 bit
+        since the convertion between 128 bit and 256 bit or other is mostly in changing the prefix (from <code>__m128</code> to <code>__m256</code> as an example).
+    </p>
+</div>
