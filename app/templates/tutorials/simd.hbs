@@ -3,123 +3,202 @@
     <hr>
     <h2>Introduction</h2>
     <p>
-        This is a partical introduction to SIMD in C++. Other languages such as C# also allow this kind of operations but require their own
-        API to do so. I will assume that you are comfortable to read simple C++ code and have a basic understanding of pointers.
+        This is a partical introduction to SIMD in C++. Other languages such as C# also allow this kind of operations
+        but require their own
+        API to do so. I will assume that you are comfortable to read simple C++ code and have a basic understanding of
+        pointers.
     </p>
     <h2>Data types recap</h2>
     <p>
-        I'm sure that somewhere somehow you have heard that different data tyes have different sizes. For example <code>char</code> is 1 byte (8 bits),
-        <code>float</code> and <code>ints</code> are 4 bytes (32 bits) and <code>longs</code> and <code>doubles</code> are 8 bytes (64 bits) adn yes
-        it also depends on machine and operating system but nowadays it is the most common. So why does this matter? Well because with instrinsic operations
-        you have a new primitive types which are 16 bytes wide (126 bits) and 32 bytes wide (256 bits). CPUs actually has a special register for them:
-        <ul>
-            <li>XMM0-XMM15 which are 16 bytes wide (SSE data types)</li>
-            <li>YMM0-YMM15 which are 32 bytes wide (AVX data types)</li>
-        </ul>
-        <h4>SSE data types</h4>
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>__m128</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>4 x 32 bit float</td>
-                </tr>
-                <tr>
-                    <td>__m128i</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>4 x 32 bit integer</td>
-                </tr>
-                <tr>
-                    <td>__m128d</td>
-                    <td colspan="2">double</td>
-                    <td colspan="2">double</td>
-                    <td>2 x 64 bit double</td>
-                </tr>
-            </tbody>
-        </table>
-        <h4>AVX data types</h4>
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>__m256</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>float</td>
-                    <td>8 x 32 bit float</td>
-                </tr>
-                <tr>
-                    <td>__m256i</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>int</td>
-                    <td>8 x 32 bit integer</td>
-                </tr>
-                <tr>
-                    <td>__m256d</td>
-                    <td colspan="2">double</td>
-                    <td colspan="2">double</td>
-                    <td colspan="2">double</td>
-                    <td colspan="2">double</td>
-                    <td>4 x 64 bit double</td>
-                </tr>
-            </tbody>
-        </table>
+        I'm sure that somewhere somehow you have heard that different data tyes have different sizes. For example
+        <code>char</code> is 1 byte (8 bits),
+        <code>float</code> and <code>ints</code> are 4 bytes (32 bits) and <code>longs</code> and <code>doubles</code>
+        are 8 bytes (64 bits) adn yes
+        it also depends on machine and operating system but nowadays it is the most common. So why does this matter?
+        Well because with instrinsic operations
+        you have a new primitive types which are 16 bytes wide (126 bits) and 32 bytes wide (256 bits). CPUs actually
+        has a special register for them:
+    <ul>
+        <li>XMM0-XMM15 which are 16 bytes wide (SSE data types)</li>
+        <li>YMM0-YMM15 which are 32 bytes wide (AVX data types)</li>
+    </ul>
+    <h4>SSE data types</h4>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>__m128</td>
+                <td>float</td>
+                <td>float</td>
+                <td>float</td>
+                <td>float</td>
+                <td>4 x 32 bit float</td>
+            </tr>
+            <tr>
+                <td>__m128i</td>
+                <td>int</td>
+                <td>int</td>
+                <td>int</td>
+                <td>int</td>
+                <td>4 x 32 bit integer</td>
+            </tr>
+            <tr>
+                <td>__m128d</td>
+                <td colspan="2">double</td>
+                <td colspan="2">double</td>
+                <td>2 x 64 bit double</td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>AVX data types</h4>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>__m256</td>
+                <td>float</td>
+                <td>float</td>
+                <td>float</td>
+                <td>float</td>
+                <td>float</td>
+                <td>float</td>
+                <td>float</td>
+                <td>float</td>
+                <td>8 x 32 bit float</td>
+            </tr>
+            <tr>
+                <td>__m256i</td>
+                <td>int</td>
+                <td>int</td>
+                <td>int</td>
+                <td>int</td>
+                <td>int</td>
+                <td>int</td>
+                <td>int</td>
+                <td>int</td>
+                <td>8 x 32 bit integer</td>
+            </tr>
+            <tr>
+                <td>__m256d</td>
+                <td colspan="2">double</td>
+                <td colspan="2">double</td>
+                <td colspan="2">double</td>
+                <td colspan="2">double</td>
+                <td>4 x 64 bit double</td>
+            </tr>
+        </tbody>
+    </table>
     </p>
-    <CodeViewer @code='int main(int argc, char *argv[]) { return 0; }'/>
-    {{!-- <p style="text-align: justify;">
-        When it comes to increase the performance, people generally think of fast data structures and algorithms or multithreading thus relying 
-        CPUs available cores.
-    </p>
-    <img src="/images/tutorials/simd/_1.png" class="mx-auto d-block" width="600px">
+    <h2>How do we use it?</h2>
     <p>
-        There is a less know form of parallelism at CPU instruction level called Instrinsic Instruction which allow you to operate on 4 inputs
-        with a single instruction and gerenate 4 outputs. The maximum amount of inputs actually depends on the CPU. Some variations are 4, 8 and 16 
-        inputs. Generally all modern CPUs support atleast 4 inputs but if you want to know how far you can go with your CPU you can check this
-        <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">list</a>.
+        Lets start with a simple program:
+    </p>
+    <CodeViewer @code={{this.snippet1}} />
+    <p>
+        First things first we need to include the appropriate headers. We include <code>nmmintrin</code> when we are
+        working with SSE and include <code>immintrin</code>
+        when we are working with AVX.
     </p>
     <p>
-        At very low level every CPU uses registers to temporarily store data. Nowadays most CPU are 64 bit meaning that their registers are 64 bit in 
-        <a id="arch-size-definition" data-trigger="focus" role="button" href="#!" data-toggle="popover">size</a>. Generally <code>floats</code> and 
-        <code>ints</code> are 32 bit wide and you can fit two in a single register but the CPU will only operate on them one at the time.
+        Inside <code>main</code> function we define two <code>__m128</code> operands and set their four
+        <code>floats</code> with <code>_mm_set_ps</code>. Although we are working
+        with SSE the <code>_mm_set_ps</code> is an sequential instruction, i.e. each of <code>__m128</code> values will
+        be set one after another in sequence. How do
+        I know it? Well Intel has a great <a id="intel-documentation" data-trigger="focus" role="button" href="#!"
+            data-toggle="popover">documentation</a> about it, you should definitely check out.
     </p>
-    <img src="/images/tutorials/simd/_2.png" class="mx-auto d-block" width="600px">
     <p>
-        We can compute both floats (or ints) at the same time using special registers. There are 128 bit wide wich means you can fill it with 4 floats
-        and the operation will be performed on them all at the same time.
+        Then we add all values of <code>a</code> with all values of <code>b</code> in a single <a id="instruction-info"
+            data-trigger="focus" role="button" href="#!" data-toggle="popover">instruction</a> and store the result in
+        <code>res</code>.
     </p>
-    <img src="/images/tutorials/simd/_3.png" class="mx-auto d-block" width="600px">
+    <h2>Get the results back</h2>
     <p>
-        But if you are dealing with <code>doubles</code> or <code>longs</code> you would only be able to fit 2 in these registers. There are already CPUs that have 512 bit
-        register which means you can fit there 16 <code>floats</code> or <code>ints</code> and 8 <code>doubles</code> or <code>longs</code>. Here I will only cover 128 bit
-        since the convertion between 128 bit and 256 bit or other is mostly in changing the prefix (from <code>__m128</code> to <code>__m256</code> as an example).
+        There are multiple ways to get the values from SSE variables. One way is to use SSE operations themselves as
+        such:
     </p>
-    <div class="alert alert-info">
-        <strong>Note:</strong>
-        <p>
-            When talking about 128 bit registers (4 scalar) operations we use the term <b>SSE</b>. For 256 bit registers (8 scalers) operatsions we use 
-            the term <b>AVX</b>.
-        </p>
+    <CodeViewer @code={{this.snippet2}} />
+    <pre>Output:<code>4, 3, 2, 1</code></pre>
+    <p>
+        The <code>_mm_store_ps</code> will retrieve our values from an SSE variable but as you can see index 0 refers to
+        last position in <code>_mm_set_ps</code>. Another
+        way to get our values is by using casts as follow:</p>
+    <CodeViewer @code={{this.snippet3}} />
+    <pre>Output:<code>4, 3, 2, 1</code></pre>
+    <p>
+        Note that it will return the same output as the previous one. One last method that I want to show is by using
+        <a href="https://en.cppreference.com/w/cpp/language/union">unions</a>:
+    </p>
+    <CodeViewer @code={{this.snippet4}} />
+    <p>
+        The last two techniques can also be used to set an SSE variable. With this knowledge in mind we can start with
+        optimizations using SIMD instructions.
+    </p>
+    <h2>The Setup</h2>
+    <p>
+        Lets suppose we are building a game and we are now writing the section responsable for dealing damage to all
+        entities caused by an explosion. Lets define
+        our rules for the explosion.
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/explosion_rules.png" width="350px">
     </div>
     <p>
-        Lets take a look at these operations with a simple program sample:
+        Our explosion will have two radius (R<sub>1</sub> and R<sub>2</sub>). The inner radius will deal the total
+        amount of damage caused by explosion. The outter radius
+        will have calculated damage, i.e. farther an entity is from the center of the explosion less damage it will
+        take. Note that both R<sub>1</sub> and R<sub>2</sub>
+        have their origin at the center of the explosion.
     </p>
-    <pre><code>#include &#60;nmmintrin.h&#62;   // For SSE
-#include &#60;immintrin.h&#62;   // For AVX
-    </code></pre> --}}
+    <p>
+        After our first coding iterations we could end up with something like this.
+    </p>
+    <CodeViewer @code={{this.snippet5}} />
+    <h2>Branchless Execution</h2>
+    <p>
+        The first step to improve performance is to remove all conditions we have inside our <code>for loop</code>. To
+        do that we could
+        apply the partial damage (<code>1 - (distance - explosion->r1 / (explosion->r2 - explosion->r1))</code>) to all
+        entities but this has two
+        problems:
+    <ol>
+        <li>
+            It would calculate this factor for all entities even if they are outside the explosion radius. This is bad
+            because if all entities are outside
+            this still would be calculated for every single entity compared to no calculations at all. It would also add
+            extra operations for those who are inside
+            inner radius even though they would only require one subtraction.
+        </li>
+        <li>
+            If you do the maths you will find out that for those entities that are inside inner radius would take more
+            damage that is defined in <code>Explosion</code>
+            struct which could be a nice feature but it is not what we want here. Also for those entities that are
+            outside explosion radius would actually have
+            an healing effect which could be a feature for another game.
+        </li>
+    </ol>
+    </p>
+    <p>
+        For the first problem we have no solution. It is what it is. But we could still would have performance increase
+        even though we are doing more computation
+        than what is needed. This is because we removed the possibility of <a
+            href="https://en.wikipedia.org/wiki/Branch_predictor">branch perdiction</a> and our calculations are
+        relatively simple which are very
+        fast anyway.
+    </p>
+    <p>
+        For the second problem what we really need is to clamp our factor between 0 and 1. This would prevent the
+        explosion from dealing more damange than defined or
+        from healing entities. To achieve this we apply <code>std::min</code> and <code>std::max</code> to our damage
+        factor. Our function now looks like this:
+    </p>
+    <CodeViewer @code={{this.snippet6}} />
+    <div class="alert alert-primary" role="alert">
+        <b>Note!</b>
+        <p>
+            Even though we are using <code>std::min</code> and <code>std::max</code> they internally use
+            <a href="https://www.w3schools.com/cpp/cpp_conditions_shorthand.asp">ternary operator</a> which are
+            conditionals. But there are CPU level instructions which can calculate min and max in one go as we will se
+            in the following section.
+        </p>
+    </div>
+    <h2>Time for improvement with SIMD instructions</h2>
 </div>
