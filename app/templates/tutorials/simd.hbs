@@ -3,10 +3,15 @@
     <hr>
     <h2>Introduction</h2>
     <p>
-        This is a partical introduction to SIMD in C++. Other languages such as C# also allow this kind of operations
+        This is a pratical introduction to SIMD in C++. Other languages such as C# also allow this kind of operations
         but require their own
         API to do so. I will assume that you are comfortable to read simple C++ code and have a basic understanding of
         pointers.
+    </p>
+    <p>
+        All code samples here were build and tested in <a href="https://visualstudio.microsoft.com/vs/">Visual Studio
+            2019</a> and
+        the source code can be found on <a href="https://github.com/vadimsZinatulins/SIMD-Tutorial">github</a>.
     </p>
     <h2>Data types recap</h2>
     <p>
@@ -86,6 +91,12 @@
             </tr>
         </tbody>
     </table>
+    </p>
+    <p>
+        We will only deal with SSE but if you want you can use AVX since most of the difference between them is naming
+        convetions by post fixing names with 256 or replacing entirely 128 by 256 (for example instead of
+        <code>__m128</code> you would use <code>__m256</code> or instead of <code>_mm_set_ps</code> you would use
+        <code>_mm256_set_ps</code>). It is up to you which one you want to use.
     </p>
     <h2>How do we use it?</h2>
     <p>
@@ -186,7 +197,7 @@
     </p>
     <p>
         For the second problem what we really need is to clamp our factor between 0 and 1. This would prevent the
-        explosion from dealing more damange than defined or
+        explosion from dealing more damage than defined or
         from healing entities. To achieve this we apply <code>std::min</code> and <code>std::max</code> to our damage
         factor. Our function now looks like this:
     </p>
@@ -201,4 +212,61 @@
         </p>
     </div>
     <h2>Time for improvement with SIMD instructions</h2>
+    <p>
+        Now that our code inside <code>for loop</code> has no conditionals inside it we can start making improvements
+        using SIMD instructions. The SIMD version is as follows:
+    </p>
+    <CodeViewer @code={{this.snippet7}} />
+    <p>
+        First we convert all explosion properties to <code>__m128</code> since they never change during the execution.
+        Then we perform all the operations needed to calculate new entities' health and lastly we set these values to
+        their corresponding entities. If to take a closer look at the last section you'll notice that we set entities'
+        health at reversed order. This is because we are also setting the values in <code>_mm_set_ps</code> in reversed
+        order.
+    </p>
+    <p>
+        And there you go. If you reached this farm you've learned most of SIMD operations needed to start using them on
+        your own. There could be a lot more a lot more that I could cover like bit masks, AVX and ever bigger register
+        operations but these are most of the same thing but with different naming convetions (link post fixing with 256
+        instead of 128, etc.) adn bit masks are just bit manipulations (they have their uses especially when it comes to
+        conditionals).
+    </p>
+    <h2>Extra performance</h2>
+    <p>
+        If you are familiar with the concept of Data Oriented Design then you can take full advantage of SIMD
+        operations. If you look at our entity array memory layout you will find something like this:
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/memory_layout.png" />
+    </div>
+    <p>
+        And when we use <code>_mm_set_ps</code> the CPU must go to each entity and grab their attribute. For example
+        when we do <code>_mm_set_ps(entities[i + 0].x, entities[i + 1].x, entities[i + 2].x, entities[i + 3].x)</code>
+        not only <code>_mm_set_ps</code> is sequential it goes through all entities one by one.
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/data_retrieval.png" />
+    </div>
+    <p>
+        We can do better than this. If we rearrange our array to be something like an array of positions xs, array of
+        positions ys and array of healths separately we could use SSE operations to load our data.
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/efficient_memory_layout.png" />
+    </div>
+    <p>
+        Now we can load 3 values in one go with <code>_mm_load_ps</code> which is much faster than
+        <code>_mm_set_ps</code>.
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/efficient_data_retrieval.png" />
+    </div>
+    <p>Now we would end up with cold like this:</p>
+    <CodeViewer @code={{this.snippet8}} />
+    <p>
+        You can see that the code is a little bit smaller. And also I'm not actually using <code>_mm_load_ps</code> but
+        instead I just use a pointer cast to void some headaches with <code>const</code>. If you take a look at the
+        documentation you'll see that <code>_mm_load_ps</code> actually takes an <code>float const*</code>. But this
+        kind of memory layout is a huge boost in performance.
+    </p>
 </div>

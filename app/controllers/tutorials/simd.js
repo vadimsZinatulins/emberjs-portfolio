@@ -7,6 +7,8 @@ import snippet3 from 'vadims-zinatulins-portfolio/snippets/simd/snippet3';
 import snippet4 from 'vadims-zinatulins-portfolio/snippets/simd/snippet4';
 import snippet5 from 'vadims-zinatulins-portfolio/snippets/simd/snippet5';
 import snippet6 from 'vadims-zinatulins-portfolio/snippets/simd/snippet6';
+import snippet7 from 'vadims-zinatulins-portfolio/snippets/simd/snippet7';
+import snippet8 from 'vadims-zinatulins-portfolio/snippets/simd/snippet8';
 
 export default class TutorialsSimdController extends Controller {
     snippet1 = snippet1;
@@ -15,6 +17,8 @@ export default class TutorialsSimdController extends Controller {
     snippet4 = snippet4;
     snippet5 = snippet5;
     snippet6 = snippet6;
+    snippet7 = snippet7;
+    snippet8 = snippet8;
 
     constructor(...args) {
         super(...args);

@@ -7,7 +7,7 @@ export default
     float r1;
     float r2;
 
-    float damange;
+    float damage;
 };
 
 struct Entity
@@ -25,19 +25,19 @@ void explosionUpdate(Explosion *explosion, Entity *entities, int numEntities)
 		// Calculate the distante from entity to explosion
 		float dx = explosion->x - entities[i].x;
 		float dy = explosion->y - entities[i].y;
-		float distance = sqrt(dx * dx + dy * dy);
+		float distance = std::sqrt(dx * dx + dy * dy);
 
 		if (distance < explosion->r1)		// Check if entity is inside inner radius
 		{
 			// Apply total damage to entity
-			entities[i].health -= explosion->damange;
+			entities[i].health -= explosion->damage;
 		}
 		else if (distance < explosion->r2)  // Check if entity is inside outter radius
 		{
 			// Calculate damage factor
 			float dmgFactor = 1 - ((distance - explosion->r1) / (explosion->r2 - explosion->r1));
 			// Apply partial damage to entity
-			entities[i].health -= explosion->damange * dmgFactor;
+			entities[i].health -= explosion->damage * dmgFactor;
 		}
 	}
 }`;
