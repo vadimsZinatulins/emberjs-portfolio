@@ -13,36 +13,79 @@
                 support for Machine Learning.
             </p>
             <p style="text-align: justify;">
-                I'n my free times I love to play video games, spend time with friends and specially play Basketball 
+                In my free times I love to play video games, spend time with friends and specially play Basketball 
                 <span class="text-muted">(which lately is somewhat impossible)</span>. I also spend a lot of time learning 
                 and reasearching game development related stuff (more on game engine side).
             </p>
-            <h4>Persnal Information</h4>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <i class="fas fa-user"></i> <label><strong>Name</strong> Vadims Zinatulins</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <i class="fas fa-phone"></i> <label><strong>Phone</strong> +351 911 753 128</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <i class="fas fa-calendar-alt"></i> <label><strong>Date of birth</strong> 10-01-1995</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <i class="fas fa-map-marker-alt"></i> <label><strong>Place of birth</strong> Latvia</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <i class="fas fa-venus-mars"></i> <label><strong>Gender</strong> Male</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <i class="fas fa-flag"></i> <label><strong>Nationality</strong> Latvian</label>
-                    </div>
-                </div>
-            </div>
-            <br>
             <p class="text-center">{{#each this.personal.links as |link|}} <a href="{{link.link}}"><i class="{{link.icon}} fa-2x"></i></a>{{/each}}</p>
         </div>
+    </div>
+    <br>
+    <h4>Persnal Information</h4>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <i class="fas fa-user"></i> <label><strong>Name</strong> Vadims Zinatulins</label>
+            </div>
+            <div class="col-sm-4">
+                <i class="fas fa-phone"></i> <label><strong>Phone</strong> +351 911 753 128</label>
+            </div>
+            <div class="col-sm-4">
+                <i class="fas fa-calendar-alt"></i> <label><strong>Date of birth</strong> 10-01-1995</label>
+            </div>
+            <div class="col-sm-4">
+                <i class="fas fa-map-marker-alt"></i> <label><strong>Place of birth</strong> Latvia</label>
+            </div>
+            <div class="col-sm-4">
+                <i class="fas fa-venus-mars"></i> <label><strong>Gender</strong> Male</label>
+            </div>
+            <div class="col-sm-4">
+                <i class="fas fa-flag"></i> <label><strong>Nationality</strong> Latvian</label>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h4>Interests</h4>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Programming</label>
+            </div>
+            <div class="col-sm-4">
+                <label>C++</label>
+            </div>
+            <div class="col-sm-4">
+                <label>OpenGL</label>
+            </div>
+            <div class="col-sm-4">
+                <label>Game development</label>
+            </div>
+            <div class="col-sm-4">
+                <label>Game Engines</label>
+            </div>
+            <div class="col-sm-4">
+                <label>Basketball</label>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h4>Spoken Languages</h4>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Portugues <StarRating @rate=4/></label>
+            </div>
+            <div class="col-sm-4">
+                <label>English <StarRating @rate=3/></label>
+            </div>
+            <div class="col-sm-4">
+                <label>Russian <StarRating @rate=1/></label>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="text-center">
+        <a href="/files/CV Vadims Zinatulins.pdf" class="btn btn-success" target="_blank">Download CV</a>
     </div>
     <br>
     <div id="cv-accordion" class="accordion">
@@ -114,16 +157,15 @@
             </div>
             <div id="collapse-skills" class="collapse" aria-labelledby="skills-heading" data-parent="#cv-accordion">
                 <div class="card-body">
-                    <ul class="list-group list-group-flush">
+                    <div class="row">
                         {{#each this.personal.skills as |skill|}}
-                            <li class="list-group-item">
+                            <div class="col-sm-3 p-2">
                                 <small>{{skill.name}}</small>
-                                <div class="progress" style="height: 15px;">
-                                    <div class="progress-bar" role="progressbar" style={{skill.cssRate}} aria-valuenow="{{skill.rate}}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </li>
+                                <br>
+                                <StarRating @rate={{skill.rate}} @color='#28a745' />
+                            </div>
                         {{/each}}
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,7 +186,7 @@
                         {{#each this.personal.courses as |course|}}
                             <li class="list-group-item">
                                 <h4><span class="font-weight-lighter">{{course.date}}</span> {{course.name}}</h4>
-                                <h6 class="text-muted">{{course.from}}</h6>
+                                <h6 class="text-muted">{{course.from}} {{#if course.diploma}}<small><a href={{course.diploma.file}} target="_blank">{{course.diploma.name}} certificate</a></small>{{/if}}</h6>
                             </li>
                         {{/each}}
                     </ul>

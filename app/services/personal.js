@@ -35,10 +35,6 @@ class Skill {
         this.name = name;
         this.rate = rate;
     }
-
-    get cssRate() {
-        return htmlSafe('width: ' + this.rate + '%;');
-    }
 }
 
 class PersonalLink {
@@ -99,37 +95,38 @@ export default class PersonalService extends Service {
         new Education('2013 - 2015', 'Curso Profissional em Técnico de Eletrónica, Automação e Computadores', 'Escola Secundária Doutor Solano de Abreu, Abrantes')
     ];
     skills = [
-        new Skill('JavaScript', 80),
-        new Skill('C++', 60),
-        new Skill('Java', 60),
-        new Skill('Python', 60),
-        new Skill('C#', 40),
-        new Skill('NodeJS', 80),
-        new Skill('EmberJS', 80),
-        new Skill('NodeJS C++ Addons', 60),
-        new Skill('Visual Studio', 60),
-        new Skill('Visual Studio Code', 60),
-        new Skill('NetBeans', 60),
-        new Skill('Emscripten', 60),
-        new Skill('WebAssembly', 60),
-        new Skill('Docker', 40),
-        new Skill('Kubernetes', 20),
-        new Skill('Git', 80),
-        new Skill('Machine Learning (Mathematical Concept)', 40),
-        new Skill('TensorFlow', 20),
-        new Skill('Flask', 40),
-        new Skill('Linux', 60),
-        new Skill('NGINX', 40),
-        new Skill('Postgres SQL', 60),
-        new Skill('Object Oriented Programming', 100),
-        new Skill('Functional Programming', 80),
-        new Skill('Data Oriented Design', 40)
+        new Skill('JavaScript', 4),
+        new Skill('C++', 3),
+        new Skill('Java', 3),
+        new Skill('Python', 3),
+        new Skill('C#', 2),
+        new Skill('NodeJS', 4),
+        new Skill('EmberJS', 4),
+        new Skill('NodeJS C++ Addons', 3),
+        new Skill('Visual Studio', 3),
+        new Skill('Visual Studio Code', 3),
+        new Skill('NetBeans', 3),
+        new Skill('Emscripten', 3),
+        new Skill('WebAssembly', 3),
+        new Skill('Docker', 2),
+        new Skill('Kubernetes', 1),
+        new Skill('Git', 4),
+        new Skill('Machine Learning (Mathematical Concept)', 2),
+        new Skill('TensorFlow', 1),
+        new Skill('Flask', 2),
+        new Skill('Linux', 3),
+        new Skill('NGINX', 2),
+        new Skill('Postgres SQL', 3),
+        new Skill('Object Oriented Programming', 5),
+        new Skill('Functional Programming', 4),
+        new Skill('Data Oriented Design', 2)
     ];
     courses = [
-        new Course('Feb 2021', 'NGINX Fundamentals', 'Udemy'),
-        new Course('Oct 2020', 'Docker Mastery: With Kubernetes', 'Udemy'),
-        new Course('Aug 2020', 'WebAssembly & Emscripten', 'Udemy'),
-        new Course('Feb 2020', 'Machine Learning', 'Coursera')
+        new Course('Feb 2021', 'NGINX Fundamentals', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_nginx.pdf')),
+        new Course('Feb 2021', 'NpdeJS, SQL & PostgreSQL', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_nodejs_sql_mastery.pdf')),
+        new Course('Dec 2020', 'Docker Mastery: With Kubernetes', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_docker_mastery.pdf')),
+        new Course('Jul 2020', 'WebAssembly & Emscripten', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_web_assembly.pdf')),
+        new Course('Feb 2020', 'Machine Learning', 'Coursera', new Diploma('Stanford\'s Online Course', '/files/diplomas/coursera_machine_learning.pdf'))
     ];
 
     get age() {
