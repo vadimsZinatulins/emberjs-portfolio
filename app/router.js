@@ -12,4 +12,5 @@ Router.map(function () {
   this.route('tutorials', function() {
     this.route('simd');
   });
+  this.route('about');
 });
