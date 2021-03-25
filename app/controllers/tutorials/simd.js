@@ -23,7 +23,10 @@ export default class TutorialsSimdController extends Controller {
     constructor(...args) {
         super(...args);
 
+        console.log('Constructing');
         requestAnimationFrame(() => {
+            console.log('jquery: ', jQuery('#intel-documentation'));
+            
             jQuery('#intel-documentation').popover({
                 placement: 'top',
                 title: 'Intel Documentation',
@@ -31,13 +34,6 @@ export default class TutorialsSimdController extends Controller {
                 content: this.htmlSafeIntelDocumentation.string,
                 container: 'body'
             });
-            // $('#intel-documentation').popover({
-            //     placement: 'top',
-            //     title: 'Intel Documentation',
-            //     html: true,
-            //     content: this.htmlSafeIntelDocumentation.string,
-            //     container: 'body'
-            // });
 
             jQuery('#instruction-info').popover({
                 placement: 'top',
