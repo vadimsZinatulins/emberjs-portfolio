@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { htmlSafe } from '@ember/template';
 
 class WorkExperience {
     date;
@@ -33,6 +34,10 @@ class Skill {
     constructor(name, rate) {
         this.name = name;
         this.rate = rate;
+    }
+
+    get cssRate() {
+        return htmlSafe('width: ' + this.rate + '%;');
     }
 }
 
