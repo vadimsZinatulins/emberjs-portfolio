@@ -1,2 +1,109 @@
-{{page-title "About"}}
-{{outlet}}
+<div class="container pt-2">
+    <div id="cv-accordion" class="accordion">
+        <div class="card">
+            <div id="work-experience-heading" class="card-header">
+                <h2 class="mb-0">
+                    <button class="btn btn-link text-decoration-none btn-block text-left " type="button"
+                        data-toggle="collapse" data-target="#collapse-work-experience" aria-expanded="true"
+                        aria-controls="collapse-work-experience">
+                        <i class="fas fa-briefcase"></i> Work Experience
+                    </button>
+                </h2>
+            </div>
+            <div id="collapse-work-experience" class="collapse" aria-labelledby="work-experience-heading"
+                data-parent="#cv-accordion">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {{#each this.personal.workExperience as |experience|}}
+                            <li class="list-group-item">
+                                <h4><span class="font-weight-lighter">{{experience.date}}</span> {{experience.position}}
+                                </h4>
+                                <h6 class="text-muted">{{experience.company}}</h6>
+                                <ul>
+                                    {{#each experience.responsabilities as |responsability|}}
+                                        <li class="font-weight-light">{{responsability}}</li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id="education-and-qualifications-heading" class="card-header">
+                <h2 class="mb-0">
+                    <button class="btn btn-link text-decoration-none btn-block text-left" type="button"
+                        data-toggle="collapse" data-target="#collapse-education-and-qualifications-heading"
+                        aria-expanded="true" aria-controls="collapse-education-and-qualifications-heading">
+                        <i class="fas fa-graduation-cap"></i> Education and Qualifications
+                    </button>
+                </h2>
+            </div>
+            <div id="collapse-education-and-qualifications-heading" class="collapse"
+                aria-labelledby="education-and-qualifications-heading-heading" data-parent="#cv-accordion">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {{#each this.personal.education as |education|}}
+                            <li class="list-group-item">
+                                <h4><span class="font-weight-lighter">{{education.date}}</span> {{education.name}}</h4>
+                                <h6 class="text-muted">{{education.place}}</h6>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id="skills-heading" class="card-header">
+                <h2 class="mb-0">
+                    <button class="btn btn-link text-decoration-none btn-block text-left" type="button"
+                        data-toggle="collapse" data-target="#collapse-skills" aria-expanded="true"
+                        aria-controls="collapse-skills">
+                        <i class="fas fa-mouse"></i> Skills
+                    </button>
+                </h2>
+            </div>
+            <div id="collapse-skills" class="collapse" aria-labelledby="skills-heading" data-parent="#cv-accordion">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {{#each this.personal.skills as |skill|}}
+                            <li class="list-group-item">
+                                <small>{{skill.name}}</small>
+                                <div class="progress" style="height: 15px;">
+                                    <div class="progress-bar" role="progressbar" style="width: {{skill.rate}}%;" aria-valuenow="{{skill.rate}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id="courses-heading" class="card-header">
+                <h2 class="mb-0">
+                    <button class="btn btn-link text-decoration-none btn-block text-left" type="button"
+                        data-toggle="collapse" data-target="#collapse-courses" aria-expanded="true"
+                        aria-controls="collapse-courses">
+                        <i class="fas fa-clipboard-list"></i> Courses
+                    </button>
+                </h2>
+            </div>
+            <div id="collapse-courses" class="collapse" aria-labelledby="courses-heading" data-parent="#cv-accordion">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {{#each this.personal.courses as |course|}}
+                            <li class="list-group-item">
+                                <h4><span class="font-weight-lighter">{{course.date}}</span> {{course.name}}</h4>
+                                <h6 class="text-muted">{{course.from}}</h6>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
