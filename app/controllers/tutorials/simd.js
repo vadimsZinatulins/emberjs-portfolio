@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import $ from 'jquery';
+import jQuery from 'jquery';
 import { htmlSafe } from '@ember/template';
 import snippet1 from 'vadims-zinatulins-portfolio/snippets/simd/snippet1';
 import snippet2 from 'vadims-zinatulins-portfolio/snippets/simd/snippet2';
@@ -24,15 +24,22 @@ export default class TutorialsSimdController extends Controller {
         super(...args);
 
         requestAnimationFrame(() => {
-            $('#intel-documentation').popover({
+            jQuery('#intel-documentation').popover({
                 placement: 'top',
                 title: 'Intel Documentation',
                 html: true,
                 content: this.htmlSafeIntelDocumentation.string,
                 container: 'body'
             });
+            // $('#intel-documentation').popover({
+            //     placement: 'top',
+            //     title: 'Intel Documentation',
+            //     html: true,
+            //     content: this.htmlSafeIntelDocumentation.string,
+            //     container: 'body'
+            // });
 
-            $('#instruction-info').popover({
+            jQuery('#instruction-info').popover({
                 placement: 'top',
                 title: 'Note!',
                 html: true,
