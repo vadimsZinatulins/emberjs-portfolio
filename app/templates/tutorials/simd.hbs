@@ -269,4 +269,32 @@
         documentation you'll see that <code>_mm_load_ps</code> actually takes an <code>float const*</code>. But this
         kind of memory layout is a huge boost in performance.
     </p>
+    <h2>Performance Measurements</h2>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/chart.png" width="1200px">
+    </div>
+    <p>
+        These are results of performance measurements on my machine. If you run similar tests on your machine you might
+        get something completely different. This is because of CPU not being the same, application you have running on
+        your background might impact the results. There are many factors that might influence the result. It is
+        always important to measure.
+    </p>
+    <p>
+        You can deduce few things from the measurements. First is that packed update is alwats faster than other updates
+        (again this is on my machine). Another thing we can verify is that branchless update is not always faster than
+        normal update, it is only faster when the number of entities to update reaches a certain threshold. Here it
+        seems to be around 16K of entities. If you have an sharp eye you can also see that the time it takes to compute
+        with normal update increases exponentialy with the number of entities while the packed update increases
+        linearly.
+    </p>
+    <h2>One final note</h2>
+    <p>
+        Whenever you are doing performance related work it is always important to measure the results so you can have
+        something to reason about. If you do this you might get surprised more times than you expect.
+    </p>
+    <p>
+        Also when doing using SSE, AVX or even more advanced vectorized instruction (specially in C++) you should always
+        keep in mind the target hardware it is suppose to run. With other languages such as C# you might get performance
+        loss if you try use vectorized instruction on hardware that does not suports it because it will emulate them.
+    </p>
 </div>
