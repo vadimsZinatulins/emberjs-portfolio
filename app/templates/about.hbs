@@ -1,4 +1,50 @@
 <div class="container pt-2">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="text-center">
+                <img src="/images/me/me_speudo_formal.jpg" class="rounded">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h4>Who am I</h4>
+            <p style="text-align: justify;">
+                My name is Vadims Zinatulins and I'm mostly Self-taught programmer although I'm finishing my graduation in computer science (or 'Engenharia Informática' as it is called 
+                natively) in Portugal. I'm currently employed at Softinsa, an IBM's group company, doing mostly web development and infrastructure
+                support for Machine Learning.
+            </p>
+            <p style="text-align: justify;">
+                I'n my free times I love to play video games, spend time with friends and specially play Basketball 
+                <span class="text-muted">(which lately is somewhat impossible)</span>. I also spend a lot of time learning 
+                and reasearching game development related stuff (more on game engine side).
+            </p>
+            <h4>Persnal Information</h4>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <i class="fas fa-user"></i> <label><strong>Name</strong> Vadims Zinatulins</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fas fa-phone"></i> <label><strong>Phone</strong> +351 911 753 128</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fas fa-calendar-alt"></i> <label><strong>Date of birth</strong> 10-01-1995</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fas fa-map-marker-alt"></i> <label><strong>Place of birth</strong> Latvia</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fas fa-venus-mars"></i> <label><strong>Gender</strong> Male</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fas fa-flag"></i> <label><strong>Nationality</strong> Latvian</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <p class="text-center">{{#each this.personal.links as |link|}} <a href="{{link.link}}"><i class="{{link.icon}} fa-2x"></i></a>{{/each}}</p>
+        </div>
+    </div>
+    <br>
     <div id="cv-accordion" class="accordion">
         <div class="card">
             <div id="work-experience-heading" class="card-header">
