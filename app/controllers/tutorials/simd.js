@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
-import jQuery from 'jquery';
 import { htmlSafe } from '@ember/template';
+import { action } from '@ember/object';
 import snippet1 from 'vadims-zinatulins-portfolio/snippets/simd/snippet1';
 import snippet2 from 'vadims-zinatulins-portfolio/snippets/simd/snippet2';
 import snippet3 from 'vadims-zinatulins-portfolio/snippets/simd/snippet3';
@@ -19,31 +19,6 @@ export default class TutorialsSimdController extends Controller {
     snippet6 = snippet6;
     snippet7 = snippet7;
     snippet8 = snippet8;
-
-    constructor(...args) {
-        super(...args);
-
-        console.log('Constructing');
-        requestAnimationFrame(() => {
-            console.log('jquery: ', jQuery('#intel-documentation'));
-            
-            jQuery('#intel-documentation').popover({
-                placement: 'top',
-                title: 'Intel Documentation',
-                html: true,
-                content: this.htmlSafeIntelDocumentation.string,
-                container: 'body'
-            });
-
-            jQuery('#instruction-info').popover({
-                placement: 'top',
-                title: 'Note!',
-                html: true,
-                content: this.htmlSafeInstrocutionInfo.string,
-                container: 'body'
-            });
-        });
-    }
 
     get htmlSafeIntelDocumentation() {
         return htmlSafe(`
@@ -66,5 +41,25 @@ export default class TutorialsSimdController extends Controller {
             take 3 to 4 cycles to complete the instruction. Still it is much faster than adding four <code>floats</code> individually.
         </p>
         `);
+    }
+
+    @action popoverInstructionInfo() {
+        jQuery('#intel-documentation').popover({
+            placement: 'top',
+            title: 'Intel Documentation',
+            html: true,
+            content: this.htmlSafeIntelDocumentation.string,
+            container: 'body'
+        });
+    }
+
+    @action popoverIntelDocumentation() {
+        jQuery('#instruction-info').popover({
+            placement: 'top',
+            title: 'Note!',
+            html: true,
+            content: this.htmlSafeInstrocutionInfo.string,
+            container: 'body'
+        });
     }
 }

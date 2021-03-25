@@ -132,12 +132,12 @@
                     with SSE the <code>_mm_set_ps</code> is an sequential instruction, i.e. each of <code>__m128</code>
                     values will be set one after another in sequence. How do I know it? Well Intel has a great <a
                         id="intel-documentation" onclick="return false;" data-trigger="focus" role="button" href="#"
-                        data-toggle="popover">documentation</a> about it, you should definitely check out.
+                        data-toggle="popover" {{did-insert this.popoverIntelDocumentation}}>documentation</a> about it, you should definitely check out.
                 </p>
                 <p>
                     Then we add all values of <code>a</code> with all values of <code>b</code> in a single <a
                         id="instruction-info" onclick="return false;" data-trigger="focus" role="button" href="#"
-                        data-toggle="popover">instruction</a>
+                        data-toggle="popover" {{did-insert this.popoverInstructionInfo}}>instruction</a>
                     and store the result in
                     <code>res</code>.
                 </p>
@@ -169,7 +169,7 @@
                     damage to all entities caused by an explosion. Lets define our rules for the explosion.
                 </p>
                 <div class="text-center">
-                    <img src="/images/tutorials/simd/explosion_rules.png" width="550px">
+                    <img src="/images/tutorials/simd/explosion_rules.png" width="30%">
                 </div>
                 <p>
                     Our explosion will have two radius (R<sub>1</sub> and R<sub>2</sub>). The inner radius will deal the
@@ -251,7 +251,7 @@
                     SIMD operations. If you look at our entity array memory layout you will find something like this:
                 </p>
                 <div class="text-center">
-                    <img src="/images/tutorials/simd/memory_layout.png" />
+                    <img src="/images/tutorials/simd/memory_layout.png" width="65%" />
                 </div>
                 <p>
                     And when we use <code>_mm_set_ps</code> the CPU must go to each entity and grab their attribute. For
@@ -260,21 +260,21 @@
                     not only <code>_mm_set_ps</code> is sequential it goes through all entities one by one.
                 </p>
                 <div class="text-center">
-                    <img src="/images/tutorials/simd/data_retrieval.png" />
+                    <img src="/images/tutorials/simd/data_retrieval.png" width="65%" />
                 </div>
                 <p>
                     We can do better than this. If we rearrange our array to be something like an array of positions xs,
                     array of positions ys and array of healths separately we could use SSE operations to load our data.
                 </p>
                 <div class="text-center">
-                    <img src="/images/tutorials/simd/efficient_memory_layout.png" />
+                    <img src="/images/tutorials/simd/efficient_memory_layout.png" width="25%" />
                 </div>
                 <p>
                     Now we can load 3 values in one go with <code>_mm_load_ps</code> which is much faster than
                     <code>_mm_set_ps</code>.
                 </p>
                 <div class="text-center">
-                    <img src="/images/tutorials/simd/efficient_data_retrieval.png" />
+                    <img src="/images/tutorials/simd/efficient_data_retrieval.png" width="60%" />
                 </div>
                 <p>Now we would end up with cold like this:</p>
                 <CodeViewer @code={{this.snippet8}} />
@@ -287,7 +287,7 @@
                 </p>
                 <h2 id="list-item-performance-measurements">Performance Measurements</h2>
                 <div class="text-center">
-                    <img src="/images/tutorials/simd/chart.png" width="1200px">
+                    <img src="/images/tutorials/simd/chart.png" width="100%">
                 </div>
                 <p>
                     These are results of performance measurements on my machine. If you run similar tests on your
