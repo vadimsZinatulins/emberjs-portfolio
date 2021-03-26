@@ -6,7 +6,7 @@ module.exports = function (defaults) {
     let app = new EmberApp(defaults, {
         ace: {
             modes: ['c_cpp'],
-            themes: ['chrome']
+            themes: ['crimson_editor']
         }
         // Add options here
     });

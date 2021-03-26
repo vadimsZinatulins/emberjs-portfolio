@@ -2,6 +2,13 @@ import Controller from '@ember/controller';
 import { htmlSafe } from '@ember/template';
 import { action } from '@ember/object';
 import cpp_snippet_1 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_1';
+import cpp_snippet_2 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_2';
+import cpp_snippet_3 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_3';
+import cpp_snippet_4 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_4';
+import cpp_snippet_5 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_5';
+import cpp_snippet_6 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_6';
+import cpp_snippet_7 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_7';
+import cpp_snippet_8 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_8';
 import snippet1 from 'vadims-zinatulins-portfolio/snippets/simd/snippet1';
 import snippet2 from 'vadims-zinatulins-portfolio/snippets/simd/snippet2';
 import snippet3 from 'vadims-zinatulins-portfolio/snippets/simd/snippet3';
@@ -21,6 +28,13 @@ export default class TutorialsSimdController extends Controller {
     snippet7 = snippet7;
     snippet8 = snippet8;
     cpp_snippet_1 = cpp_snippet_1;
+    cpp_snippet_2 = cpp_snippet_2;
+    cpp_snippet_3 = cpp_snippet_3;
+    cpp_snippet_4 = cpp_snippet_4;
+    cpp_snippet_5 = cpp_snippet_5;
+    cpp_snippet_6 = cpp_snippet_6;
+    cpp_snippet_7 = cpp_snippet_7;
+    cpp_snippet_8 = cpp_snippet_8;
 
     get htmlSafeIntelDocumentation() {
         return htmlSafe(`
