@@ -1,3 +1,113 @@
+<div class="container">
+    <h1>SIMD Instructions</h1>
+    <hr>
+    <h2>Motivation</h2>
+    <p style="text-align: justify;">
+        Suppose you are writing a game and at some point you have reached a phase where you want to optimize what you
+        already have before moving on. Skimming through you code base and you have found the following code which
+        applies gravity to all your entities in the scene. To simplify things we won't use inheritance which means
+        we would have a monolitic class <code>Entity</code> in our game. For the purpose of this tutorial this is
+        fine since <code>Entity</code> class in very small anyway.
+    </p>
+    <div class="alert alert-primary" role="alert">
+        <strong>Note!</strong>
+        <p style="text-align: justify;">
+            Using this <code>Entity</code> as we are using in example below is very rarely found in games. What is most
+            common to be found is a base class <code>GameObject</code> and having multiple classes (<code>Player</code>,
+            <code>Monster</code>, etc) to derive from it. This have advantages but have negative impacts in
+            performance. Here I'm being very generous and giving an headstart to our <code>Entity</code> class which
+            will be further improved in terms of performance.
+        </p>
+    </div>
+    <CodeViewer @code={{this.cpp_snippet_1}} />
+    <p style="text-align: justify;">
+        So you have decided that you want to measure how much time does it takes to aply gravity to every entity each
+        frame. Furthermore you want to measure it with different entities count to have a rough estimate how does
+        performance change with the entities growth.
+    </p>
+    <p style="text-align: justify;">
+        So you created a profiler, done some measurements multiple times and averaged the results. Pulled out your
+        favourite chart creation tool and came up with these results:
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/measurement_01.png" width="50%">
+    </div>
+    <br>
+    <div class="alert alert-primary" role="alert">
+        <strong>Note!</strong>
+        <p style="text-align: justify;">
+            If you try to run this test on your machine you're likely to get different values. This is because there are
+            many factors that impacts the performance (such as operating system, tasks running in background, CPU, etc).
+        </p>
+    </div>
+    <p style="text-align: justify;">
+        Note that execution times comes in <a id="microsecond-reminder" data-trigger="focus" role="button" href="#"
+            onclick="return false;" data-toggle="popover" {{did-insert this.popovermicrosecondHelper}}>microseconds</a>.
+        Now lets suppose you have other systems in your game that require more time so you must open reduce execution
+        time other parts.
+    </p>
+    <p>
+        Remember that if you want to achieve 30 stable FPS you frame must update under (approximately) 33ms.
+        In our case it would take 4.4ms to update 65536 entities which is about 13.3% out of 33ms. Lets suppose we have
+        measured the execution time of all of our systems and calculated the time it requires of a single 33ms frame.
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/time_partition.png" width="50%">
+    </div>
+    <br>
+    <p style="text-align: justify;">
+        If we wanted to add more systems we only had 14.2% of 33ms (which is about 4.7ms). So you want to open more
+        space there and decided to start from Gravity System because it is the easiest of them all and you know how to
+        do it quickly. In real scenario you'll probably start from the most expensive system but for the sake of this
+        tutorial we'll start with Gravity System.
+    </p>
+    <h2>SIMD Instructions</h2>
+    <p style="text-align: justify;">
+        SIMD instructions is what allow to do parallel calculations without use of threads. It stands for <b>S</b>ingle
+        <b>I</b>nstruction <b>M</b>ultiple <b>D</b>ata also know as intrinsic functions or vectorized instructions. With
+        one single instruction you can work on multiple data. Pretty cool, right? But before start using them we need to
+        recap our basic knowledge about data types.
+    </p>
+    <p style="text-align: justify;">
+        I'm pretty sure that somewhere somehow you have heard that different data tyes have different sizes. For
+        example <code>char</code> is 1 byte (8 bits), <code>float</code> and <code>int</code> is 4 bytes
+        (32 bits) and <code>long</code> and <code>double</code> is 8 bytes (64 bits) and yes it depends on CPU and
+        operating system you have but nowadays it is the most common to find. So why does this matter? Well because with
+        SIMD instructions you have a new primitive types which are 16 bytes wide (126 bits). With this size you can fit
+        4 <code>floats</code> or 4 <code>ints</code> inside and manipulate them all at the same time (or instruction as
+        I should say). There are actually even bigger data types available namely 32 bytes (256 bits) and even 64 bytes
+        (512 bits) but you should check if you CPU <a id="cpu-simd-support" data-trigger="focus" role="button" href="#"
+            onclick="return false;" data-toggle="popover" {{did-insert this.popoverCpuSupport}}>supports</a>
+        these kind of data types before using them. CPUs actually has a special <a
+            href="https://en.wikipedia.org/wiki/Processor_register">register</a> for them:
+    </p>
+    <ul>
+        <li>XMM0-XMM15 which are 16 bytes wide (SSE data types)</li>
+        <li>YMM0-YMM15 which are 32 bytes wide (AVX data types)</li>
+        <li>ZMM0-YMM15 which are 64 bytes wide (AVX-512 data types)</li>
+    </ul>
+    <div class="alert alert-primary" role="alert">
+        <strong>Note!</strong>
+        <p style="text-align: justify;">
+            Somes times you'll find people refering to SSE, AVX and AVX-512 as AVX, AVX2 and AVX-512 but I will stick
+            with the former naming as it is what you can find on <a
+                href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/">Intel's Documentation</a>.
+        </p>
+    </div>
+    <p style="text-align: justify;">
+        Bellow you can see what are the SIMD data types (for <span class="badge badge-pill"
+            style="background-color: darkgray;">SSE</span>, <span class="badge badge-pill"
+            style="background-color: lightgreen;">AVX</span> and <span class="badge badge-pill"
+            style="background-color: yellow;">AVX-512</span>), their sizes and what can they hold (<code>float</code>,
+        <code>int</code> or <code>double</code>)
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/data_types_sizes.png" width="100%">
+    </div>
+    <br>
+</div>
+
+<hr>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
@@ -132,7 +242,8 @@
                     with SSE the <code>_mm_set_ps</code> is an sequential instruction, i.e. each of <code>__m128</code>
                     values will be set one after another in sequence. How do I know it? Well Intel has a great <a
                         id="intel-documentation" onclick="return false;" data-trigger="focus" role="button" href="#"
-                        data-toggle="popover" {{did-insert this.popoverIntelDocumentation}}>documentation</a> about it, you should definitely check out.
+                        data-toggle="popover" {{did-insert this.popoverIntelDocumentation}}>documentation</a> about it,
+                    you should definitely check out.
                 </p>
                 <p>
                     Then we add all values of <code>a</code> with all values of <code>b</code> in a single <a

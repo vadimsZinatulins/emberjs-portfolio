@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { htmlSafe } from '@ember/template';
 import { action } from '@ember/object';
+import cpp_snippet_1 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_1';
 import snippet1 from 'vadims-zinatulins-portfolio/snippets/simd/snippet1';
 import snippet2 from 'vadims-zinatulins-portfolio/snippets/simd/snippet2';
 import snippet3 from 'vadims-zinatulins-portfolio/snippets/simd/snippet3';
@@ -19,6 +20,7 @@ export default class TutorialsSimdController extends Controller {
     snippet6 = snippet6;
     snippet7 = snippet7;
     snippet8 = snippet8;
+    cpp_snippet_1 = cpp_snippet_1;
 
     get htmlSafeIntelDocumentation() {
         return htmlSafe(`
@@ -43,6 +45,29 @@ export default class TutorialsSimdController extends Controller {
         `);
     }
 
+    get htmlSafemicrosecondHelper() {
+        return htmlSafe(`
+        <p>
+            For those who aren't sure about time unit here's a reminder:
+        </p>
+        <ul>
+            <li>1 s = 1000 ms (milliseconds)</li>
+            <li>1 s = 1000000 μs (microseconds)</li>
+            <li>1 s = 1000000000 ns (nanoseconds)</li>
+        </ul>
+        `);
+    }
+
+
+    get htmlSafeCpuSupport() {
+        return htmlSafe(`
+        <p>
+            If you ain't sure what your CPU is capable of, check this list <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions#CPUs_with_AVX">here</a>
+            to see which CPUs support which data types.
+        </p>
+        `);
+    }
+
     @action popoverInstructionInfo() {
         jQuery('#intel-documentation').popover({
             placement: 'top',
@@ -59,6 +84,26 @@ export default class TutorialsSimdController extends Controller {
             title: 'Note!',
             html: true,
             content: this.htmlSafeInstrocutionInfo.string,
+            container: 'body'
+        });
+    }
+
+    @action popovermicrosecondHelper() {
+        jQuery('#microsecond-reminder').popover({
+            placement: 'top',
+            title: 'Time unit reminder',
+            html: true,
+            content: this.htmlSafemicrosecondHelper.string,
+            container: 'body'
+        });
+    }
+
+    @action popoverCpuSupport() {
+        jQuery('#cpu-simd-support').popover({
+            placement: 'top',
+            title: 'CPUs that support SIMD',
+            html: true,
+            content: this.htmlSafeCpuSupport.string,
             container: 'body'
         });
     }
