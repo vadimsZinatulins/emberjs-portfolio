@@ -9,6 +9,7 @@ import cpp_snippet_5 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet
 import cpp_snippet_6 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_6';
 import cpp_snippet_7 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_7';
 import cpp_snippet_8 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_8';
+import cpp_snippet_9 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_9';
 import snippet1 from 'vadims-zinatulins-portfolio/snippets/simd/snippet1';
 import snippet2 from 'vadims-zinatulins-portfolio/snippets/simd/snippet2';
 import snippet3 from 'vadims-zinatulins-portfolio/snippets/simd/snippet3';
@@ -35,7 +36,8 @@ export default class TutorialsSimdController extends Controller {
     cpp_snippet_6 = cpp_snippet_6;
     cpp_snippet_7 = cpp_snippet_7;
     cpp_snippet_8 = cpp_snippet_8;
-
+    cpp_snippet_9 = cpp_snippet_9;
+    
     get htmlSafeIntelDocumentation() {
         return htmlSafe(`
         <p>

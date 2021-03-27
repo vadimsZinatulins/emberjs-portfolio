@@ -30,7 +30,7 @@
         favourite chart creation tool and came up with these results:
     </p>
     <div class="text-center">
-        <img src="/images/tutorials/simd/measurement_01.png" width="65%">
+        <img src="/images/tutorials/simd/measurement_01.png" width="100%">
     </div>
     <br>
     <div class="alert alert-primary" role="alert">
@@ -48,7 +48,7 @@
     </p>
     <p>
         Remember that if you want to achieve 30 stable FPS you frame must update under (approximately) 33ms.
-        In our case it would take 4.4ms to update 65536 entities which is about 13.3% out of 33ms. Lets suppose we have
+        In our case it would take 4.4ms to update 131072 entities which is about 13.3% out of 33ms. Lets suppose we have
         measured the execution time of all of our systems and calculated the time it requires of a single 33ms frame.
     </p>
     <div class="text-center">
@@ -194,6 +194,34 @@
         Lets get back to our initial game where we apply gravity to each entity and see what can we do to improve it's
         performance.
     </p>
+    <p style="text-align: justify;">
+        First thing that needs to be done is to remove the gravity update from the
+        <code>Entity::update(float deltaTime)</code> since it will be done to multiple entities at the same time. We'll
+        create a new <code>update</code> function that will only do gravity related work. Then we must convert our
+        entities' attributes to <code>__m128</code> so we can apply SIMD operations followed by SIMD operations
+        themselves. Finaly we must update entities' attributes with newly calculated values.
+    </p>
+    <CodeViewer @code={{this.cpp_snippet_9}} />
+    <p style="text-align: justify;">
+        The final result is much much bigger code but it pays off after you measure the performance of this new
+        <code>update</code> function. But before that take a look at the final part of the code. It is storing values
+        back to entities in reversed order. This is because of <code>_mm_set_ps</code> set ordering as explained
+        previously.
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/measurement_02.png" width="100%">
+    </div>
+    <br>
+    <p style="text-align: justify;">
+        If you do rough calculations you'll see that our new <code>update</code> function is about 4 times faster. This
+        means that those 13.3% of time execution is now (approximately) 3.3ms which translates to 24.2% of remaining
+        time (or 8ms) to implement new systems which is better than our previous 14.2% (or 4.7ms).
+    </p>
+    <p style="text-align: justify;">
+        Okay this is a very simple problem so lets try to tackle a little bit more complicated one and see if we can
+        still get performance increase.
+    </p>
+    <h2>Fun with explosions</h2>
 </div>
 
 {{!--

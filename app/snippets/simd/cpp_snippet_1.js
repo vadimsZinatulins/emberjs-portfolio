@@ -28,7 +28,7 @@ void Entity::udpate(float deltaTime)
 
 	// Apply gravity
 	const float gravity = -9.81f;
-	m_vy -= gravity * deltaTime;
+	m_vy += gravity * deltaTime;
 
 	// Apply vector velocity to entity
 	m_x += m_vx;
