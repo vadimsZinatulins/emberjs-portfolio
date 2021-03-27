@@ -323,10 +323,37 @@
     </p>
     <CodeViewer @code={{this.cpp_snippet_12}} />
     <p style="text-align: justify;">
-        The moment of truth
+        The moment of truth. How much faster is this new version compared to our previous iterations?
     </p>
     <div class="text-center">
         <img src="/images/tutorials/simd/measurement_05.png" width="100%">
+    </div>
+    <br>
+    <p style="text-align: justify;">
+        It seems that our new <code>update</code> function is about 3.5x faster than our initial <code>update</code>.
+        Why not 4x faster? Well we might gain a lot from operating on 4 entities at the same time but we also loose some
+        performance with all those convertions from and to <code>__m128</code>. But this is still a win.
+    </p>
+    <h2>Squeezing extra performance</h2>
+    <p style="text-align: justify;">
+        I said that we loose some performance by doing those data types convertions back and forth. Can we get rid of
+        those? Not really but we can mitigate their impact. Whenever we call <code>_mm_set_ps</code> it must go through
+        every entity and grab the respective attribute which is done sequentially. It can be even worst if entities are
+        in different cache lines because it would mean that CPU must wait for the cache line to arrive to it can grab
+        the value it needs (as opposed to if they would be in the same cache line there would be no wait time).
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/data_retrieval.png" width="100%">
+    </div>
+    <br>
+    <p style="text-align: justify;">
+        What would be really convenient is to be able to use <code>_mm_load_ps</code> which sets <code>__m128</code>
+        values in one instruction. But this requires that our data is in contiguous array because
+        <code>_mm_load_ps</code> takes an pointer as an argument and uses the first 4 values it finds. This can be done
+        by using what is called Structure of Arrays (SoA)
+    </p>
+    <div class="text-center">
+        <img src="/images/tutorials/simd/efficient_data_retrieval.png" width="100%">
     </div>
     <br>
     <div class="text-center">
