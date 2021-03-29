@@ -6,13 +6,45 @@
                 <div class="card-body">
                     <h4 class="card-title">Who Am I</h4>
                     <p class="card-text" style="text-align: justify;">{{this.personal.resumedInfo}}</p>
-                    <p class="text-center">{{#each this.personal.links as |link|}} <a href="{{link.link}}"><i class="{{link.icon}}"></i></a>{{/each}}</p>
+                    <p class="text-center">{{#each this.personal.links as |link|}} <a href="{{link.link}}"><i
+                                class="{{link.icon}}"></i></a>{{/each}}</p>
                 </div>
             </div>
         </div>
         <div class="col-lg-8">
             <h4>Welcome</h4>
-            Hi! Welcome to my Website. This is where I'll keep everything about me up to date as well as some tutorials where I can share my knowledge.
+            <p style="text-align: justify;">
+                Hi! Welcome to my Website. This is where I'll keep everything about me up to date as well as some
+                tutorials where I can share my knowledge.
+            </p>
+            <p style="text-align: justify;">
+                Most of these tutorials are in C++ or C++ oriented (written in C++ but can be implemented in other
+                languages). Although I don't have many tutorials at this time I intend to add more in the future.
+            </p>
+            <p style="text-align: justify;">
+                After writting my first tutorial I've gain even more respect for those who write greate articles and
+                book because of how hard it is. Finding right words to make a sentences without strong assumptions is
+                not that easy. When it comes sensible topics such as performance we cannot make statements that reflects
+                <cite>"it is always true"</cite> because it might not. There are many factors that impacts performance.
+            </p>
+            <h4>Favourite Books</h4>
+            <p style="text-align: justify;">
+                This is a list of my favourite books. I only include here books that I've already read
+                <Popover @title="Venn diagram" @content={{this.vennDiagramContent}}>(not all book I've read)</Popover>.
+            </p>
+            <ul class="list-group list-group-flush">
+                {{#each this.books as |book|}}
+                    <li class="list-group-item">
+                        <div class="media">
+                            <img src={{book.cover}} class="mr-3 img-thumbnail" alt="{{book.title}} - Cover" width="90px">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{book.title}} <small class="text-muted">by {{book.author}}</small></h5>
+                                <p style="text-align: justify;">{{book.htmlSafeDescription}}</p>
+                            </div>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
         </div>
     </div>
 </div>
