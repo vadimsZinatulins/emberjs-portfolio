@@ -350,159 +350,45 @@
         What would be really convenient is to be able to use <code>_mm_load_ps</code> which sets <code>__m128</code>
         values in one instruction. But this requires that our data is in contiguous array because
         <code>_mm_load_ps</code> takes an pointer as an argument and uses the first 4 values it finds. This can be done
-        by using what is called Structure of Arrays (SoA)
+        by using what is called Structure of Arrays (SoA) which requires use to rethink how we use our entities and
+        therfore restructure it. Instead of having <code>array</code> of <code>Entity</code> classes we now have an
+        class which which will contains array of attributes of each entity like so:
+    </p>
+    <CodeViewer @code={{this.cpp_snippet_13}} />
+    <p style="text-align: justify;">
+        This might look counterintuitive but doing things this way has mny benefits one of which is performance. I wont
+        go into details about why it is so but the gist is chache efficiency. For our purpose having a data structure
+        like this what does it mean? Well, it means that we are now able to make use of <code>_mm_load_ps</code> because
+        all of our values are in a contiguous array.
     </p>
     <div class="text-center">
         <img src="/images/tutorials/simd/efficient_data_retrieval.png" width="100%">
     </div>
     <br>
+    <p style="text-align: justify;">
+        We can also take advantage of <code>_mm_store_ps</code> because of
+        the same reasons. The <code>_mm_store_ps</code> stores an <code>__m128</code> into a <code>float *</code> using
+        first 4 float addresses of the pointer. This allows us to set and load <code>__m128</code> values much faster.
+        Lets take a look of the final version of <code>update</code> function:
+    </p>
+    <CodeViewer @code={{this.cpp_snippet_14}} />
+    <p style="text-align: justify;">
+        Note that in the previous code I'm actually using a cast isnted of <code>_mm_load_ps</code> thats because it
+        actually takes an <code>float const *</code> as an argument so to avoid headaches I've ust used cast. Also our
+        <code>for loop</code> is a lote smaller compared to previous one. And after performance measurement these are
+        the results:
+    </p>
     <div class="text-center">
         <img src="/images/tutorials/simd/measurement_06.png" width="100%">
     </div>
     <br>
+    <p style="text-align: justify;">
+        It is nearly 2 times faster than our previous one. And with that we conclude this tutorial.
+    </p>
+    <h2>Conclusion</h2>
+    <p style="text-align: justify;">
+        We've a lot of ground with SIMD instructions here. We've got through a few examples, made some performance
+        analysis with a help of few charts. Using SIMD instructions is not that hard as we saw, the hard part is to find
+        a good data structure to get the most of the performance.
+    </p>
 </div>
-
-{{!--
-<hr>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-            <h2>Content List</h2>
-            <h2 id="list-item-branchless-execution">Branchless Execution</h2>
-            <p>
-                The first step to improve performance is to remove all conditions we have inside our
-                <code>for loop</code>. To do that we could apply the partial damage
-                (<code>1 - (distance - explosion->r1 / (explosion->r2 - explosion->r1))</code>) to all entities but
-                this has two problems:
-            <ol>
-                <li>
-                    It would calculate this factor for all entities even if they are outside the explosion radius.
-                    This is bad because if all entities are outside this still would be calculated for every single
-                    entity compared to no calculations at all. It would also add extra operations for those who are
-                    inside inner radius even though they would only require one subtraction.
-                </li>
-                <li>
-                    If you do the maths you will find out that those entities that are inside inner radius would
-                    take more damage that is defined in <code>Explosion</code> struct which could be a nice feature
-                    but it is not what we want here. Also those entities that are outside explosion radius would
-                    actually have an healing effect which could be a feature for another game.
-                </li>
-            </ol>
-            </p>
-            <p>
-                For the first problem we have no solution. It is what it is. But we could still would have
-                performance increase even though we are doing more computation than what is needed. This is because
-                we removed the possibility of <a href="https://en.wikipedia.org/wiki/Branch_predictor">branch
-                    perdiction</a> and our calculations are relatively simple which are very fast anyway.
-            </p>
-            <p>
-                For the second problem what we really need is to clamp our factor between 0 and 1. This would
-                prevent the explosion from dealing more damage than defined or from healing entities. To achieve
-                this we apply <code>std::min</code> and <code>std::max</code> to our damage
-                factor. Our function now looks like this:
-            </p>
-            <CodeViewer @code={{this.snippet6}} />
-            <div class="alert alert-primary" role="alert">
-                <b>Note!</b>
-                <p>
-                    Even though we are using <code>std::min</code> and <code>std::max</code> they internally use
-                    <a href="https://www.w3schools.com/cpp/cpp_conditions_shorthand.asp">ternary operator</a> which
-                    are conditionals. But there are CPU level instructions which can calculate min and max in one go
-                    as we will se in the following section.
-                </p>
-            </div>
-            <h2 id="list-item-time-for-improvement-with-simd-instructions">Time for improvement with SIMD
-                instructions</h2>
-            <p>
-                Now that our code inside <code>for loop</code> has no conditionals inside it we can start making
-                improvements using SIMD instructions. The SIMD version is as follows:
-            </p>
-            <CodeViewer @code={{this.snippet7}} />
-            <p>
-                First we convert all explosion properties to <code>__m128</code> since they never change during the
-                execution. Then we perform all the operations needed to calculate new entities' health and lastly we
-                set these values to their corresponding entities. If to take a closer look at the last section
-                you'll notice that we set entities' health at reversed order. This is because we are also setting
-                the values in <code>_mm_set_ps</code> in reversed order.
-            </p>
-            <p>
-                And there you go. If you reached this farm you've learned most of SIMD operations needed to start
-                using them on your own. There could be a lot more a lot more that I could cover like bit masks, AVX
-                and ever bigger register operations but these are most of the same thing but with different naming
-                convetions (link post fixing with 256 instead of 128, etc.) adn bit masks are just bit manipulations
-                (they have their uses especially when it comes to conditionals).
-            </p>
-            <h2 id="list-item-extra-performance">Extra performance</h2>
-            <p>
-                If you are familiar with the concept of Data Oriented Design then you can take full advantage of
-                SIMD operations. If you look at our entity array memory layout you will find something like this:
-            </p>
-            <div class="text-center">
-                <img src="/images/tutorials/simd/memory_layout.png" width="65%" />
-            </div>
-            <p>
-                And when we use <code>_mm_set_ps</code> the CPU must go to each entity and grab their attribute. For
-                example when we do
-                <code>_mm_set_ps(entities[i + 0].x, entities[i + 1].x, entities[i + 2].x, entities[i + 3].x)</code>
-                not only <code>_mm_set_ps</code> is sequential it goes through all entities one by one.
-            </p>
-            <div class="text-center">
-                <img src="/images/tutorials/simd/data_retrieval.png" width="65%" />
-            </div>
-            <p>
-                We can do better than this. If we rearrange our array to be something like an array of positions xs,
-                array of positions ys and array of healths separately we could use SSE operations to load our data.
-            </p>
-            <div class="text-center">
-                <img src="/images/tutorials/simd/efficient_memory_layout.png" width="25%" />
-            </div>
-            <p>
-                Now we can load 3 values in one go with <code>_mm_load_ps</code> which is much faster than
-                <code>_mm_set_ps</code>.
-            </p>
-            <div class="text-center">
-                <img src="/images/tutorials/simd/efficient_data_retrieval.png" width="60%" />
-            </div>
-            <p>Now we would end up with cold like this:</p>
-            <CodeViewer @code={{this.snippet8}} />
-            <p>
-                You can see that the code is a little bit smaller. And also I'm not actually using
-                <code>_mm_load_ps</code> but instead I just use a pointer cast to void some headaches with
-                <code>const</code>. If you take a look at the documentation you'll see that <code>_mm_load_ps</code>
-                actually takes an <code>float const*</code>. But this kind of memory layout is a huge boost in
-                performance.
-            </p>
-            <h2 id="list-item-performance-measurements">Performance Measurements</h2>
-            <div class="text-center">
-                <img src="/images/tutorials/simd/chart.png" width="100%">
-            </div>
-            <p>
-                These are results of performance measurements on my machine. If you run similar tests on your
-                machine you might get something completely different. This is because of CPU not being the same,
-                application you have running on your background and many toher factors that might influence the
-                result. It is always important to measure.
-            </p>
-            <p>
-                You can deduce few things from the measurements. First is that packed update is alwats faster than
-                other updates (again this is on my machine). Another thing we can verify is that branchless update
-                is not always faster than normal update, it is only faster when the number of entities to update
-                reaches a certain threshold. Here it seems to be around 16K of entities. If you have an sharp eye
-                you can also see that the time it takes to compute with normal update increases exponentialy with
-                the number of entities while the packed update increases linearly.
-            </p>
-            <h2 id="list-item-one-final-note">One final note</h2>
-            <p>
-                Whenever you are doing performance related work it is always important to measure the results so you
-                can have something to reason about. If you do this you might get surprised more times than you
-                expect.
-            </p>
-            <p>
-                Also when using SSE, AVX or even more advanced vectorized instruction (specially in C++) you
-                should always keep in mind the target hardware it is suppose to run. If not it might not even run at
-                all. With other languages such as C# you might get performance loss if you try use vectorized
-                instruction on hardware that does not suports it because it will emulate these instructions.
-            </p>
-        </div>
-    </div>
-</div>
-</div> --}}
