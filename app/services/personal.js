@@ -1,75 +1,11 @@
 import Service from '@ember/service';
 import { htmlSafe } from '@ember/template';
-
-class WorkExperience {
-    date;
-    company;
-    position;
-    responsabilities;
-
-    constructor(date, company, position, responsabilities) {
-        this.date = date;
-        this.company = company;
-        this.position = position;
-        this.responsabilities = responsabilities;
-    }
-}
-
-class Education {
-    date;
-    name;
-    place;
-
-    constructor(date, name, place) {
-        this.date = date;
-        this.name = name;
-        this.place = place;
-    }
-}
-
-class Skill {
-    name;
-    rate;
-
-    constructor(name, rate) {
-        this.name = name;
-        this.rate = rate;
-    }
-}
-
-class PersonalLink {
-    link;
-    icon;
-
-    constructor(link, icon) {
-        this.link = link;
-        this.icon = icon;
-    }
-}
-
-class Diploma {
-    name;
-    file;
-
-    constructor(name, file) {
-        this.name = name;
-        this.file = file;
-    }
-}
-
-class Course {
-    date;
-    name;
-    from;
-    diploma;
-
-    constructor(date, name, from, diploma) {
-        this.date = date;
-        this.name = name;
-        this.from = from;
-        this.diploma = diploma;
-    }
-}
+import WorkExperience from '../classes/workExperience';
+import Education from '../classes/education';
+import Skill from '../classes/skill';
+import PersonalLink from '../classes/personalLink';
+import Diploma from '../classes/diploma';
+import Course from '../classes/course';
 
 export default class PersonalService extends Service {
     name = 'Vadims Zinatulins';
