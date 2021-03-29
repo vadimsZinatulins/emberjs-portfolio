@@ -5,8 +5,8 @@
     <p style="text-align: justify;">
         Suppose you are writing a game and at some point you have reached a phase where you want to optimize what you
         already have before moving on. Skimming through you code base and you have found the following code which
-        applies gravity to all your entities in the scene. To simplify things we won't use inheritance which means
-        we would have a monolitic class <code>Entity</code> in our game. For the purpose of this tutorial this is
+        applies gravity to all your entities in the scene. To simplify things we won't use inheritance here which means
+        we have a monolitic class <code>Entity</code> in our game. For the purpose of this tutorial this is
         fine since <code>Entity</code> class in very small anyway.
     </p>
     <div class="alert alert-primary" role="alert">
@@ -70,7 +70,7 @@
         recap our basic knowledge about data types.
     </p>
     <p style="text-align: justify;">
-        I'm pretty sure that somewhere somehow you have heard that different data tyes have different sizes. For
+        I'm pretty sure that somewhere somehow you have heard that different data types have different sizes. For
         example <code>char</code> is 1 byte (8 bits), <code>float</code> and <code>int</code> is 4 bytes
         (32 bits) and <code>long</code> and <code>double</code> is 8 bytes (64 bits) and yes it depends on CPU and
         operating system you have but nowadays it is the most common to find. So why does this matter? Well because with
@@ -142,7 +142,7 @@
     </p>
     <p style="text-align: justify;">
         In the previous sample we are only using addition, we can can also perform subtraction, multiplication, division
-        and mny other crazy operations. Nearly everything you can do with scalars you can do with SIMD instruction.
+        and many other crazy operations. Nearly everything you can do with scalars you can do with SIMD instruction.
     </p>
     <p style="text-align: justify;">
         If you need you can also create <code>__m128</code> from a single <code>float</code> by calling
@@ -254,7 +254,7 @@
     </p>
     <h2>Branchless Update</h2>
     <p style="text-align: justify;">
-        So you sat and your desk, scratched your head for while and figured out that the one way to remove those
+        So you sat at your desk, scratched your head for while and figured out that the one way to remove those
         conditionals was by applying that explosion calculation
         (<code>1 - ((distance - explosion->r1) / (explosion->r2 - explosion->r1))</code>) to all entities no matter
         what. But this would have two consequences:
@@ -356,8 +356,8 @@
     </p>
     <CodeViewer @code={{this.cpp_snippet_13}} />
     <p style="text-align: justify;">
-        This might look counterintuitive but doing things this way has mny benefits one of which is performance. I wont
-        go into details about why it is so but the gist is chache efficiency. For our purpose having a data structure
+        This might look counterintuitive but doing things this way has many benefits one of which is performance. I wont
+        go into details about why it is so but the gist is cache efficiency. For our purpose having a data structure
         like this what does it mean? Well, it means that we are now able to make use of <code>_mm_load_ps</code> because
         all of our values are in a contiguous array.
     </p>
@@ -392,14 +392,14 @@
     </p>
     <h2>Conclusion</h2>
     <p style="text-align: justify;">
-        I knwo that this is a long tutorial but I wanted to cover not only the basics of SIMD Instructions but also got
+        I know that this is a long tutorial but I wanted to cover not only the basics of SIMD Instructions but also got
         through one example where we convert a simple code to a SIMD version and another example where we convert the
         code to an branchless version first and then to a SIMD version. Not all code can be converted to SIMD some must
         be done in parts (i.e. converting to SIMD back and forth multiple times) specially when you have more complex
         conditionals that the complete operations cannot be represented mathematically.
     </p>
     <p style="text-align: justify;">
-        I deliberately omitted the performance measurement code because I don't want the you to focus too munch about
+        I deliberately omitted the performance measurement code because I don't want the you to focus too much about
         it. But if you feel you need to know how it was done you can always check the <a
             href="https://github.com/vadimsZinatulins/SIMD-Instructions">Github</a> project, the code you'll find there
         still contains them.
