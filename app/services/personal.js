@@ -59,7 +59,7 @@ export default class PersonalService extends Service {
     ];
     courses = [
         new Course('Feb 2021', 'NGINX Fundamentals', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_nginx.pdf')),
-        new Course('Feb 2021', 'NpdeJS, SQL & PostgreSQL', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_nodejs_sql_mastery.pdf')),
+        new Course('Feb 2021', 'NodeJS, SQL & PostgreSQL', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_nodejs_sql_mastery.pdf')),
         new Course('Dec 2020', 'Docker Mastery: With Kubernetes', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_docker_mastery.pdf')),
         new Course('Jul 2020', 'WebAssembly & Emscripten', 'Udemy', new Diploma('Udemy\'s Course', '/files/diplomas/udemy_web_assembly.pdf')),
         new Course('Feb 2020', 'Machine Learning', 'Coursera', new Diploma('Stanford\'s Online Course', '/files/diplomas/coursera_machine_learning.pdf'))
