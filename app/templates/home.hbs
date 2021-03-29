@@ -33,9 +33,17 @@
                 <Popover @title="Venn diagram" @content={{this.vennDiagramContent}}>(not all book I've read)</Popover>.
             </p>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <h5>Data Oriented Design <small class="text-muted">by Richard Fabian</small></h5>
-                </li>
+                {{#each this.books as |book|}}
+                    <li class="list-group-item">
+                        <div class="media">
+                            <img src={{book.cover}} class="mr-3 img-thumbnail" alt="{{book.title}} - Cover" width="90px">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{book.title}} <small class="text-muted">by {{book.author}}</small></h5>
+                                <p style="text-align: justify;">{{book.htmlSafeDescription}}</p>
+                            </div>
+                        </div>
+                    </li>
+                {{/each}}
             </ul>
         </div>
     </div>
