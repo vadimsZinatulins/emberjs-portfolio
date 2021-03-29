@@ -10,6 +10,9 @@ import cpp_snippet_6 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet
 import cpp_snippet_7 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_7';
 import cpp_snippet_8 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_8';
 import cpp_snippet_9 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_9';
+import cpp_snippet_10 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_10';
+import cpp_snippet_11 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_11';
+import cpp_snippet_12 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_12';
 import snippet1 from 'vadims-zinatulins-portfolio/snippets/simd/snippet1';
 import snippet2 from 'vadims-zinatulins-portfolio/snippets/simd/snippet2';
 import snippet3 from 'vadims-zinatulins-portfolio/snippets/simd/snippet3';
@@ -37,6 +40,9 @@ export default class TutorialsSimdController extends Controller {
     cpp_snippet_7 = cpp_snippet_7;
     cpp_snippet_8 = cpp_snippet_8;
     cpp_snippet_9 = cpp_snippet_9;
+    cpp_snippet_10 = cpp_snippet_10;
+    cpp_snippet_11 = cpp_snippet_11;
+    cpp_snippet_12 = cpp_snippet_12;
     
     get htmlSafeIntelDocumentation() {
         return htmlSafe(`
@@ -84,6 +90,25 @@ export default class TutorialsSimdController extends Controller {
         `);
     }
 
+    get htmlSafeDod() {
+        return htmlSafe(`
+        <p>
+            This is a very complex topic but fortunately there is a <a href="https://github.com/dbartolini/data-oriented-design">github</a> 
+            project that has all resources that you need to understand it.
+        </p>
+        <p>
+            Also if you can apply Data Oriented Design then you made your data perfect fit for SIMD Instructions. Together they greatly
+            boost the overall performance.
+        </p>
+        `);
+    }
+
+    get htmlSafeHoNo() {
+        return htmlSafe(`
+        <img src="/images/tutorials/simd/oh_no.jpg" width="300px">
+        `);
+    }
+
     @action popoverInstructionInfo() {
         jQuery('#intel-documentation').popover({
             placement: 'top',
@@ -120,6 +145,26 @@ export default class TutorialsSimdController extends Controller {
             title: 'CPUs that support SIMD',
             html: true,
             content: this.htmlSafeCpuSupport.string,
+            container: 'body'
+        });
+    }
+
+    @action popoverDod() {
+        jQuery('#dod-popover').popover({
+            placement: 'top',
+            title: 'Data Oriented Design',
+            html: true,
+            content: this.htmlSafeDod.string,
+            container: 'body'
+        });
+    }
+
+    @action popoverHoNo() {
+        jQuery('#oh-no-popover').popover({
+            placement: 'top',
+            title: 'Oh No',
+            html: true,
+            content: this.htmlSafeHoNo.string,
             container: 'body'
         });
     }

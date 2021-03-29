@@ -32,7 +32,7 @@ void explosionUpdate(Explosion *explosion, Entity *entities, int numEntities)
 			// Apply total damage to entity
 			entities[i].health -= explosion->damage;
 		}
-		else if (distance < explosion->r2)  // Check if entity is inside outter radius
+		else if (distance < explosion->r2)  // Check if entity is inside outer radius
 		{
 			// Calculate damage factor
 			float dmgFactor = 1 - ((distance - explosion->r1) / (explosion->r2 - explosion->r1));
