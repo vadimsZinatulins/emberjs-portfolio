@@ -3,31 +3,28 @@
     <hr>
     <h2>Motivation</h2>
     <p style="text-align: justify;">
-        Suppose you are writing a game and at some point you have reached a phase where you want to optimize what you
-        already have before moving on. Skimming through you code base and you have found the following code which
+        Suppose you are writing a game and at some point, you have reached a phase where you want to optimize what you
+        already have before moving on. Skimming through your code base and you have found the following code which
         applies gravity to all your entities in the scene. To simplify things we won't use inheritance here which means
-        we have a monolitic class <code>Entity</code> in our game. For the purpose of this tutorial this is
-        fine since <code>Entity</code> class in very small anyway.
+        we have a monolithic class <code>Entity</code> in our game. For this tutorial, this is fine since the
+        <code>Entity</code> class is very small anyway.
     </p>
     <div class="alert alert-primary" role="alert">
         <strong>Note!</strong>
         <p style="text-align: justify;">
-            Using this <code>Entity</code> as we are using in example below is very rarely found in games. What is most
-            common to be found is a base class <code>GameObject</code> and having multiple classes (<code>Player</code>,
-            <code>Monster</code>, etc) to derive from it. This have advantages but have negative impacts in
-            performance. Here I'm being very generous and giving an headstart to our <code>Entity</code> class which
-            will be further improved in terms of performance.
+            Using this <code>Entity</code> as we are using in the example below is very rarely found in games. What is
+            most common to be found is a base class GameObject and having multiple classes (<code>Player</code>,
+            <code>Monster</code>, etc) to derive from it. This has advantages but has negative impacts on performance.
+            Here I'm being very generous and giving a headstart to our Entity class which will be further improved in
+            terms of performance.
         </p>
     </div>
     <CodeViewer @code={{this.cpp_snippet_1}} />
     <p style="text-align: justify;">
-        So you have decided that you want to measure how much time does it takes to aply gravity to every entity each
-        frame. Furthermore you want to measure it with different entities count to have a rough estimate how does
-        performance change with the entities growth.
-    </p>
-    <p style="text-align: justify;">
-        So you created a profiler, done some measurements multiple times and averaged the results. Pulled out your
-        favourite chart creation tool and came up with these results:
+        So you have decided that you want to measure how much time does it takes to apply gravity to every entity in
+        each frame. Furthermore, you want to measure it with different entities count to have a rough estimate of how
+        does performance change with the entities growth. So you created a profiler, done some measurements multiple
+        times, and averaged the results. Pulled out your favorite chart creation tool and came up with these results:
     </p>
     <div class="text-center">
         <img src="/images/tutorials/simd/measurement_01.png" width="100%">
@@ -41,15 +38,14 @@
         </p>
     </div>
     <p style="text-align: justify;">
-        Note that execution times comes in <a id="microsecond-reminder" data-trigger="focus" role="button" href="#"
+        Note that execution times come in <a id="microsecond-reminder" data-trigger="focus" role="button" href="#"
             onclick="return false;" data-toggle="popover" {{did-insert this.popovermicrosecondHelper}}>microseconds</a>.
-        Now lets suppose you have other systems in your game that require more time so you must open reduce execution
-        time other parts.
+        Now, let us suppose you have other systems in your game that require more time so you need to get time for other
+        parts.
     </p>
     <p>
-        Remember that if you want to achieve 30 stable FPS you frame must update under (approximately) 33ms.
-        In our case it would take 4.4ms to update 131 072 entities which is about 13.3% out of 33ms. Lets suppose we
-        have
+        Remember that if you want to achieve 30 stable FPS your frame must update under (approximately) 33ms. In our
+        case, it would take 4.4ms to update 131 072 entities which are about 13.3% out of 33ms. Let us suppose we have
         measured the execution time of all of our systems and calculated the time it requires of a single 33ms frame.
     </p>
     <div class="text-center">
@@ -58,28 +54,28 @@
     <br>
     <p style="text-align: justify;">
         If we wanted to add more systems we only had 14.2% of 33ms (which is about 4.7ms). So you want to open more
-        space there and decided to start from Gravity System because it is the easiest of them all and you know how to
-        do it quickly. In real scenario you'll probably start from the most expensive system but for the sake of this
-        tutorial we'll start with Gravity System.
+        space there and decided to start from the Gravity System because it is the easiest of them all and you know how
+        to do it quickly. In a real scenario, you'll probably start from the most expensive system but for the sake of
+        this tutorial, we'll start with the Gravity System.
     </p>
     <h2>SIMD Instructions</h2>
     <p style="text-align: justify;">
-        SIMD instructions is what allow to do parallel calculations without use of threads. It stands for <b>S</b>ingle
-        <b>I</b>nstruction <b>M</b>ultiple <b>D</b>ata also know as intrinsic functions or vectorized instructions. With
-        one single instruction you can work on multiple data. Pretty cool, right? But before start using them we need to
-        recap our basic knowledge about data types.
+        SIMD instructions are what allow to do parallel calculations without the use of threads. It stands for
+        <b>S</b>ingle <b>I</b>nstruction <b>M</b>ultiple <b>D</b>ata also know as intrinsic functions or vectorized
+        instructions. With one single instruction, you can work on multiple data. Pretty cool, right? But before start
+        using them we need to recap our basic knowledge about data types.
     </p>
     <p style="text-align: justify;">
         I'm pretty sure that somewhere somehow you have heard that different data types have different sizes. For
-        example <code>char</code> is 1 byte (8 bits), <code>float</code> and <code>int</code> is 4 bytes
-        (32 bits) and <code>long</code> and <code>double</code> is 8 bytes (64 bits) and yes it depends on CPU and
-        operating system you have but nowadays it is the most common to find. So why does this matter? Well because with
-        SIMD instructions you have a new primitive types which are 16 bytes wide (126 bits). With this size you can fit
-        4 <code>floats</code> or 4 <code>ints</code> inside and manipulate them all at the same time (or instruction as
-        I should say). There are actually even bigger data types available namely 32 bytes (256 bits) and even 64 bytes
-        (512 bits) but you should check if you CPU <a id="cpu-simd-support" data-trigger="focus" role="button" href="#"
-            onclick="return false;" data-toggle="popover" {{did-insert this.popoverCpuSupport}}>supports</a>
-        these kind of data types before using them. CPUs actually has a special <a
+        example, <code>char</code> is 1 byte (8 bits), <code>float</code> and <code>int</code> are 4 bytes (32 bits),
+        and <code>long</code> and <code>double</code> is 8 bytes (64 bits)
+        and yes it depends on the CPU and operating system you have but nowadays it is the most common to find. So why
+        does this matter? Well because with SIMD instructions you have new primitive types which are 16 bytes wide (126
+        bits). With this size, you can fit 4 <code>floats</code> or 4 <code>ints</code> inside and manipulate them all
+        at the same time (or instruction as I should say). There are even bigger data types available namely 32 bytes
+        (256 bits) and even 64 bytes (512 bits) but you should check if your CPU <a id="cpu-simd-support"
+            data-trigger="focus" role="button" href="#" onclick="return false;" data-toggle="popover" {{did-insert
+            this.popoverCpuSupport}}>supports</a> these kinds of data types before using them. CPUs has a special <a
             href="https://en.wikipedia.org/wiki/Processor_register">register</a> for them:
     </p>
     <ul>
@@ -96,27 +92,27 @@
         </p>
     </div>
     <p style="text-align: justify;">
-        Bellow you can see what are the SIMD data types (for <span class="badge badge-pill"
+        Below you can see what are the SIMD data types (for <span class="badge badge-pill"
             style="background-color: darkgray;">SSE</span>, <span class="badge badge-pill"
-            style="background-color: lightgreen;">AVX</span> and <span class="badge badge-pill"
+            style="background-color: lightgreen;">AVX</span>, and <span class="badge badge-pill"
             style="background-color: yellow;">AVX-512</span>), their sizes and what can they hold (<code>float</code>,
-        <code>int</code> or <code>double</code>).
+        <code>int</code>, or <code>double</code>).
     </p>
     <div class="text-center">
         <img src="/images/tutorials/simd/data_types_sizes.png" width="100%">
     </div>
     <br>
     <p style="text-align: justify;">
-        Now image what it is to manipulate 4, 8 or even 16 values at the same time. It is a huge performance increase. I
-        hope that by this point you're already interested in explore more about SIMD.
+        Now imagine what it is to manipulate 4, 8, or even 16 values at the same time. It is a huge performance
+        increase. I hope that by this point you're already interested in exploring more about SIMD.
     </p>
     <h2>How can we use it?</h2>
     <p style="text-align: justify;">
-        First we need to include appropriate header files to take advantage of SIMD:
+        First, we need to include appropriate header files to take advantage of SIMD:
     </p>
     <CodeViewer @code={{this.cpp_snippet_2}} />
     <p style="text-align: justify;">
-        Then lets create a simple program that adds 4 float with another 4 floats.
+        Then let's create a simple program that adds 4 <code>floats</code> with another 4 <code>floats</code>.
     </p>
     <CodeViewer @code={{this.cpp_snippet_3}} />
     <p style="text-align: justify;">
@@ -127,21 +123,21 @@
         <strong>Warning!</strong>
         <p style="text-align: justify;">
             Do not be fooled here. Although we are working with intrinsic operations the <code>_mm_set_ps</code> is
-            actually setting <code>__m128</code> values sequentially. By this I mean it sets 32 bits of
-            <code>__m128</code> one at the time (i.e. one instruction per each value set). How do I know it? Well Intel
-            has a great <a id="intel-documentation" onclick="return false;" data-trigger="focus" role="button" href="#"
-                data-toggle="popover" {{did-insert this.popoverIntelDocumentation}}>documentation</a> about it,
-            you should definitely check out.
+            setting <code>__m128</code> values sequentially. By this I mean it sets 32 bits of <code>__m128</code> one
+            at a time (i.e. one instruction per each value set). How do I know it? Well, Intel has great <a
+                id="intel-documentation" onclick="return false;" data-trigger="focus" role="button" href="#"
+                data-toggle="popover" {{did-insert this.popoverIntelDocumentation}}>documentation</a> about it, you
+            should check it out.
         </p>
     </div>
     <p style="text-align: justify;">
         We then use <code>_mm_add_ps</code> to add our floats together all in one instruction. I should mention that
-        having things done in one instruction doesn't meen that it will be done in one CPU Clock Cycle. It would
-        actually take about 3-4 cycles to complete the instruction. But don't worry most of CPU instructions take more
-        than 1 cycle to complete and SIMD instructions are not different.
+        having things done in one instruction doesn't mean that they will be done in one CPU Clock Cycle. It would take
+        about 3-4 cycles to complete the instruction. But don't worry most CPU instructions take more than 1 cycle to
+        complete and SIMD instructions are not different.
     </p>
     <p style="text-align: justify;">
-        In the previous sample we are only using addition, we can can also perform subtraction, multiplication, division
+        In the previous sample, we are only using addition, we can also perform subtraction, multiplication, division,
         and many other crazy operations. Nearly everything you can do with scalars you can do with SIMD instruction.
     </p>
     <p style="text-align: justify;">
@@ -151,15 +147,14 @@
     </p>
     <CodeViewer @code={{this.cpp_snippet_4}} />
     <p style="text-align: justify;">
-        Note that our variable <code>values</code> in the previous example is of type <code>float const *</code>. This
-        is no accident, the <code>_mm_load_ps</code> actually require <code>float const *</code> as an argument. Because
-        of this people tend cast the <code>float *</code> directly to <code>__m128 *</code> and then dereference it when
-        using functions.
+        Note that our variable <code>values</code> is of type <code>float const *</code>. This is no accident, the
+        <code>_mm_load_ps</code> require <code>float const *</code> as an argument. Because of this people tend to cast
+        the <code>float *</code> directly to <code>__m128 *</code> and then dereference it when using functions.
     </p>
     <CodeViewer @code={{this.cpp_snippet_5}} />
     <p style="text-align: justify;">
         Another common way to set <code>__m128</code> variables is by using <a
-            href="https://en.cppreference.com/w/cpp/language/union">unions</a> which allows you type to behave like one
+            href="https://en.cppreference.com/w/cpp/language/union">unions</a> which allows your type to behave like one
         type or another type suiting your needs at that moment. This is perfect for this scenario because sometimes need
         might need <code>__m128</code> and other times we might need <code>float[4]</code>:
     </p>
@@ -172,7 +167,7 @@
     <pre>Output:<code>9, 8, 7, 6</code></pre>
     <p style="text-align: justify;">
         Another way would be to cast values to <code>float *</code> and then access them individually. But you've
-        probably guessed that there is a function for that aswell namely <code>_mm_store_ps</code>.
+        probably guessed that there is a function for that as well namely <code>_mm_store_ps</code>.
     </p>
     <CodeViewer @code={{this.cpp_snippet_8}} />
     <pre>Output:<code>8, 7, 6, 5</code></pre>
@@ -182,25 +177,24 @@
     </p>
     <p style="text-align: justify;">
         There is much more you can do with SIMD. You can do bitwise operations, comparisons, trigonometry, probabilistic
-        operations and more. If you want something specific just check the <a
+        operations, and more. If you want something specific just check <a
             href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/">Intel's Documentation</a>.
     </p>
     <p style="text-align: justify;">
-        Oh one more thing I forgot to mention. We'll only be working with SSE here but if you want to use AVX or even
+        Oh, one more thing I forgot to mention. We'll only be working with SSE here but if you want to use AVX or even
         AVX-512 you just use appropriate naming for the functions (for example instead of <code>_mm_set_ps</code> you
         can use <code>_mm256_set_ps</code> or <code>_mm512_set_ps</code>) and variable types.
     </p>
     <h2>Back to Business</h2>
     <p style="text-align: justify;">
-        Lets get back to our initial game where we apply gravity to each entity and see what can we do to improve it's
+        Let's get back to our initial game where we apply gravity to each entity and see what can we do to improve its
         performance.
     </p>
     <p style="text-align: justify;">
-        First thing that needs to be done is to remove the gravity update from the
-        <code>Entity::update(float deltaTime)</code> since it will be done to multiple entities at the same time. We'll
-        create a new <code>update</code> function that will only do gravity related work. Then we must convert our
-        entities' attributes to <code>__m128</code> so we can apply SIMD operations followed by SIMD operations
-        themselves. Finaly we must update entities' attributes with newly calculated values.
+        The first<code>Entity::update(float deltaTime)</code> since it will be done to multiple entities at the same
+        time. We'll create a new <code>update</code> function that will only do gravity-related work. Then we must
+        convert our entities' attributes to <code>__m128</code> so we can apply SIMD operations followed by SIMD
+        operations themselves. Finally, we must update entities' attributes with newly calculated values.
     </p>
     <CodeViewer @code={{this.cpp_snippet_9}} />
     <p style="text-align: justify;">
@@ -215,18 +209,18 @@
     <br>
     <p style="text-align: justify;">
         If you do rough calculations you'll see that our new <code>update</code> function is about 4 times faster. This
-        means that those 13.3% of time execution is now (approximately) 3.3ms which translates to 24.2% of remaining
-        time (or 8ms) to implement new systems which is better than our previous 14.2% (or 4.7ms).
+        means that that 13.3% of time execution is now (approximately) 3.3ms which translates to 24.2% of remaining
+        time (or 8ms) to implement new systems which are better than our previous 14.2% (or 4.7ms).
     </p>
     <p style="text-align: justify;">
-        Okay this is a very simple problem so lets try to tackle a little bit more complicated one and see if we can
-        still get performance increase.
+        Okay, this is a very simple problem so let's try to tackle a little bit more complicated one and see if we can
+        still get a performance increase.
     </p>
     <h2>Fun with explosions</h2>
     <p style="text-align: justify;">
         I know that this is getting a very long tutorial but I want to go through one more example before wrapping up.
-        Lets suppose you want to implement an explosion system. You want your explosion to deal total damage (defined in
-        <code>Explosion</code> class) to all entities that lie inside the radius R<sub>1</sub> and a calculated damage
+        Let's suppose you want to implement an explosion system. You want your explosion to deal total damage (defined
+        in <code>Explosion</code> class) to all entities that lie inside the radius R<sub>1</sub> and calculated damage
         based on distance from the center of explosion for those entities that lie inside the radius R<sub>2</sub> buy
         outside R<sub>1</sub>.
     </p>
@@ -235,11 +229,11 @@
     </div>
     <br>
     <p style="text-align: justify;">
-        You went through first coding iteration and came up with something like this:
+        You went through the first coding iteration and came up with something like this:
     </p>
     <CodeViewer @code={{this.cpp_snippet_10}} />
     <p style="text-align: justify;">
-        And then, as a cool programmer as you are, you decided to measure its performance.
+        And then, as cool programmer as you are, you decided to measure its performance.
     </p>
     <div class="text-center">
         <img src="/images/tutorials/simd/measurement_03.png" width="100%">
@@ -248,13 +242,13 @@
     <p style="text-align: justify;">
         With 131 072 entities your explosion updates roughly in 0.6ms which is way under the remaining time you had
         (8ms) for new systems. And even if you had multiple explosions at the same time it would still update all of
-        them in ok (ish) time. But can you do better? Of course you can! By using SIMD instructions you will definitely
-        improve the performance. The only thing you need to do is to figure out how to remove this conditionals inside
+        them in ok (ish) time. But can you do better? Of course you can! By using SIMD instructions you will
+        improve the performance. The only thing you need to do is to figure out how to remove these conditionals inside
         <code>for loop</code>.
     </p>
     <h2>Branchless Update</h2>
     <p style="text-align: justify;">
-        So you sat at your desk, scratched your head for while and figured out that the one way to remove those
+        So you sat at your desk, scratched your head for a while, and figured out that the one way to remove those
         conditionals was by applying that explosion calculation
         (<code>1 - ((distance - explosion->r1) / (explosion->r2 - explosion->r1))</code>) to all entities no matter
         what. But this would have two consequences:
@@ -262,16 +256,16 @@
     <ul>
         <li style="text-align: justify;">
             If you quick maths you'll find out that by doing this way all entities that are inside radius R<sub>1</sub>
-            would actually take more damage that is define in the <code>Explosion</code> class which could be ok but for
-            the sake of this tutorial it is not what we want. Also for those entities that are outside explosion radius
-            they would suffer an healing effect which is weird for an explosion to do so it is out of the question
+            would take more damage than is defined in the <code>Explosion</code> class which could be ok but for the
+            sake of this tutorial it is not what we want. Also for those entities that are outside the explosion radius,
+            they would suffer a healing effect which is weird for an explosion to do so it is out of an question
             feature.
         </li>
         <li style="text-align: justify;">
-            IT would still calculate damage for all entities that lie outside of the explosion radius which means more
-            CPU instructions compared to no instructions at all which is definitely a decrease of performance. Also if
+            It would still calculate damage for all entities that lie outside of the explosion radius which means more
+            CPU instructions compared to no instructions at all which is a decrease in performance. Also if
             all entities lie inside the radius R<sub>1</sub> it would perform again those calculations instead of one
-            subtraction which again is no good. For this case the ideal solution would be if all entities were between
+            subtraction which again is no good. For this case, the ideal solution would be if all entities were between
             R<sub>1</sub> and R<sub>2</sub>.
         </li>
     </ul>
