@@ -387,8 +387,20 @@
     </p>
     <h2>Conclusion</h2>
     <p style="text-align: justify;">
-        We've a lot of ground with SIMD instructions here. We've got through a few examples, made some performance
-        analysis with a help of few charts. Using SIMD instructions is not that hard as we saw, the hard part is to find
-        a good data structure to get the most of the performance.
+        I knwo that this is a long tutorial but I wanted to cover not only the basics of SIMD Instructions but also got
+        through one example where we convert a simple code to a SIMD version and another example where we convert the
+        code to an branchless version first and then to a SIMD version. Not all code can be converted to SIMD some must
+        be done in parts (i.e. converting to SIMD back and forth multiple times) specially when you have more complex
+        conditionals that the complete operations cannot be represented mathematically.
+    </p>
+    <p style="text-align: justify;">
+        I deliberately omitted the performance measurement code because I don't want the you to focus too munch about
+        it. But if you feel you need to know how it was done you can always check the <a
+            href="https://github.com/vadimsZinatulins/SIMD-Instructions">Github</a> project, the code you'll find there
+        still contains them.
+    </p>
+    <p style="text-align: justify;">
+        I hope you've learned something from here. Also if you have found any typo or something needs more
+        clarifications feel free to reach me via <a href="mailto: vadimz2@hotmail.com">email</a> as it I use most.
     </p>
 </div>
