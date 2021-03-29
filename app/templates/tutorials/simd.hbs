@@ -270,20 +270,20 @@
         </li>
     </ul>
     <p style="text-align: justify;">
-        By knowing these two facts it is still a bad ideia? Not really. We can workout the first fact. The explosion
-        would deal more damage because the result of the calculation would output an value that is greater that
+        By knowing these two facts it is still a bad idea? Not really. We can work out the first fact. The explosion
+        would deal more damage because the result of the calculation would output a value that is greater than
         <code>1.0f</code> so the only thing we would need to prevent this is to clamp it to <code>1.0f</code>. This can
         be easily achieved by using <code>max</code> function (like
         <code>damageFactor = std::max(1.0f, damageFactor);</code>). And it would have an healing effect if the
-        calculated value is negative (i.e. bellow <code>0.0f</code>) which can also be amended with <code>min</code>
-        function (like <code>damageFactor = std::min(0.0f, damageFactor);</code>). Wait a minute, doesn't
-        <code>min</code> and <code>max</code> use <code>if</code> statements? Technically yes, but since I know there
-        are SIMD instructions for <code>min</code> and <code>max</code> operations we are going to use them (<a
-            id="oh-no-popover" data-trigger="focus" role="button" href="#" onclick="return false;" data-toggle="popover"
-            {{did-insert this.popoverHoNo}}>didn't want to spoil it here</a> but now you know whats coming).
+        calculated value is negative (i.e. bellow <code>0.0f</code>) which can also be amended with min function (like
+        damageFactor = std::min(0.0f, damageFactor);). Wait a minute, doesn't <code>min</code> and <code>max</code> use
+        <code>if</code> statements? Technically yes, but since I know there are SIMD instructions for <code>min</code>
+        and <code>max</code> operations we are going to use them (<a id="oh-no-popover" data-trigger="focus"
+            role="button" href="#" onclick="return false;" data-toggle="popover" {{did-insert this.popoverHoNo}}>didn't
+            want to spoil it here</a> but now you know what's coming).
     </p>
     <p style="text-align: justify;">
-        Now for the second fact it is what it is. There is nothing we can do about it (well actually there is but for
+        Now for the second fact, it is what it is. There is nothing we can do about it (well actually there is but for
         that we would need to talk about <a id="dod-popover" data-trigger="focus" role="button" href="#"
             onclick="return false;" data-toggle="popover" {{did-insert this.popoverDod}}>Data Oriented Design</a>). The
         following is the code for this new update function:
@@ -297,22 +297,22 @@
     </div>
     <br>
     <p style="text-align: justify;">
-        As it is possible to see, branchless update execution time is actually worst than original update only when we
-        have "few" entities. But as these grow up in number the branchless execution becomes faster than original
-        update. At this point I cannot exactly explain why this is happening but my best guess would be bad
-        <a href="https://en.wikipedia.org/wiki/Branch_predictor">branch perdiction</a> from CPU (which actually would be
+        As it is possible to see, branchless update execution time is worst than the original update only when we
+        have "few" entities. But as these grow up in number the branchless execution becomes faster than the original
+        update. At this point, I cannot exactly explain why this is happening but my best guess would be bad
+        <a href="https://en.wikipedia.org/wiki/Branch_predictor">branch prediction</a> from CPU (which actually would be
         called branch misprediction).
     </p>
     <p style="text-align: justify;">
-        So now we have everything setup for applying SIMD operations.
+        So now we have everything set up for applying SIMD operations.
     </p>
     <h2>Explosion Update with SIMD</h2>
     <p style="text-align: justify;">
-        At this point we are are transforming our previous update to SIMD version by starting with declarations of some
+        At this point, we are transforming our previous update to the SIMD version by starting with declarations of some
         <code>__m128</code> values. These variables take their values from <code>Explosion</code> attributes. Then we
-        loop through all entities four at the time and calculate our damage factor. Note the use of
+        loop through all entities four at a time and calculate our damage factor. Note the use of
         <code>_mm_min_ps</code> and <code>_mm_max_ps</code>. These are done in one instruction. They don't have any
-        <code>if else</code> inside which is preety neat. Lastly we calculate the new health value for our entities and
+        <code>if else</code> inside which is pretty neat. Lastly, we calculate the new health value for our entities and
         set them.
     </p>
     <CodeViewer @code={{this.cpp_snippet_12}} />
@@ -325,8 +325,8 @@
     <br>
     <p style="text-align: justify;">
         It seems that our new <code>update</code> function is about 3.5x faster than our initial <code>update</code>.
-        Why not 4x faster? Well we might gain a lot from operating on 4 entities at the same time but we also loose some
-        performance with all those convertions from and to <code>__m128</code>. But this is still a win.
+        Why not 4x faster? Well, we might gain a lot from operating on 4 entities at the same time but we also lose some
+        performance with all those conversions from and to <code>__m128</code>. But this is still a win.
     </p>
     <h2>Squeezing extra performance</h2>
     <p style="text-align: justify;">
