@@ -70,8 +70,8 @@ export default class PersonalService extends Service {
     }
 
     get resumedInfo() {
-        return `My name is Vadims Zinatulins and I'm ${this.age} years old. I'm mostly self-taught programmer but I'm currently studying
-        computer science in Institudo Politécnico de Tomar (Portugal). Working at Softinsa (an IBM's group company) as a full stack developer.
-        My most interests are around game devlopment (mostly game engine) but I do enjoy any kind of development and open to new challenges.`;
+        return `My name is Vadims Zinatulins and I'm ${this.age} years old. I'm a mostly self-taught programmer but I'm currently studying 
+        computer science at Instituto Politécnico de Tomar (Portugal). Working at Softinsa (an IBM group company) as a full-stack developer. 
+        My most interests are around game development (mostly game engine) but I do enjoy any kind of development and open to new challenges.`
     }
 }

@@ -22,27 +22,28 @@
                 languages). Although I don't have many tutorials at this time I intend to add more in the future.
             </p>
             <p style="text-align: justify;">
-                After writting my first tutorial I've gain even more respect for those who write greate articles and
-                book because of how hard it is. Finding right words to make a sentences without strong assumptions is
-                not that easy. When it comes sensible topics such as performance we cannot make statements that reflects
-                <cite>"it is always true"</cite> because it might not. There are many factors that impacts performance.
+                After writing my first tutorial I've gained even more respect for those who write great articles and
+                books because of how hard it is. Finding the right words to make a sentence without strong assumptions
+                is not that easy. When it comes to sensitive topics such as performance we cannot make statements that
+                reflect <cite>"it is always true"</cite> because it might not. There are many factors that impact
+                performance.
             </p>
-            <h4>Favourite Books</h4>
+            <h4>Favorite Books</h4>
             <p style="text-align: justify;">
-                This is a list of my favourite books. I only include here books that I've already read
-                <Popover @title="Venn diagram" @content={{this.vennDiagramContent}}>(not all book I've read)</Popover>.
+                This is a list of my favorite  books. I only include here books that I've already read
+                <Popover @title="Venn diagram" @content={{this.vennDiagramContent}}>(not all books I've read)</Popover>.
             </p>
             <ul class="list-group list-group-flush">
                 {{#each this.books as |book|}}
-                    <li class="list-group-item">
-                        <div class="media">
-                            <img src={{book.cover}} class="mr-3 img-thumbnail" alt="{{book.title}} - Cover" width="90px">
-                            <div class="media-body">
-                                <h5 class="mt-0">{{book.title}} <small class="text-muted">by {{book.author}}</small></h5>
-                                <p style="text-align: justify;">{{book.htmlSafeDescription}}</p>
-                            </div>
+                <li class="list-group-item">
+                    <div class="media">
+                        <img src={{book.cover}} class="mr-3 img-thumbnail" alt="{{book.title}} - Cover" width="90px">
+                        <div class="media-body">
+                            <h5 class="mt-0">{{book.title}} <small class="text-muted">by {{book.author}}</small></h5>
+                            <p style="text-align: justify;">{{book.htmlSafeDescription}}</p>
                         </div>
-                    </li>
+                    </div>
+                </li>
                 {{/each}}
             </ul>
         </div>
