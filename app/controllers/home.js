@@ -2,6 +2,13 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import Book from '../classes/book';
 
+'This one might be somewhat contradictory compared with' +
+    ' other books. It is already an old book but still contains some precious knowledge that is good' +
+    ' to have under your toolbelt. This book goes over some well-known data structures, gives you' +
+    ' comprehensive implementations, and some examples where you can apply or how you can apply' +
+    ' this data structure in a game with lots of code samples. But be warned, if you already know' +
+    ' data oriented design you might not find this book very funny.'
+
 export default class HomeController extends Controller {
     @service personal;
 
@@ -23,11 +30,12 @@ export default class HomeController extends Controller {
             ' version of it right here. I convinced some of my friends to buy this book just by giving them some problems and' +
             ' then showing the solutions offered by this book and these people are not even in the game' +
             ' development area. Strongly recommend this book.'),
-        new Book('Data Structures for Game Programming', 'Ron Penton', '/images/books/dsfgp_al_cover.jpg', 'This one might be somewhat contradictory compared' +
-            ' with other books. It is already an old book but still contains some precious knowledge that is good to have under your toolbelt. This book goes' +
-            ' over some well know data structures, gives you a comprehensive implementations and some examples where you can apply or how you can apply' +
-            ' this data structure in a game with lots of code samples. But be warned, if you already know data oriented design you might not find this' +
-            ' book very funny.')
+        new Book('Data Structures for Game Programming', 'Ron Penton', '/images/books/dsfgp_al_cover.jpg', 'This one might be somewhat contradictory compared with' +
+            ' other books. It is already an old book but still contains some precious knowledge that is good' +
+            ' to have under your toolbelt. This book goes over some well-known data structures, gives you' +
+            ' comprehensive implementations, and some examples where you can apply or how you can apply' +
+            ' this data structure in a game with lots of code samples. But be warned, if you already know' +
+            ' data oriented design you might not find this book very funny.')
     ];
     vennDiagramContent =
         `<img src="/images/venn_books.png" width="450px">`;
