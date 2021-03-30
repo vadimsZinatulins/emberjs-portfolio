@@ -330,46 +330,46 @@
     </p>
     <h2>Squeezing extra performance</h2>
     <p style="text-align: justify;">
-        I said that we loose some performance by doing those data types convertions back and forth. Can we get rid of
+        I said that we lose some performance by doing those data types of conversions back and forth. Can we get rid of
         those? Not really but we can mitigate their impact. Whenever we call <code>_mm_set_ps</code> it must go through
         every entity and grab the respective attribute which is done sequentially. It can be even worst if entities are
-        in different cache lines because it would mean that CPU must wait for the cache line to arrive to it can grab
-        the value it needs (as opposed to if they would be in the same cache line there would be no wait time).
+        in different cache lines because it would mean that the CPU must wait for the cache line to arrive at it can
+        grab the value it needs (as opposed to if they would be in the same cache line there would be no wait time).
     </p>
     <div class="text-center">
         <img src="/images/tutorials/simd/data_retrieval.png" width="100%">
     </div>
     <br>
     <p style="text-align: justify;">
-        What would be really convenient is to be able to use <code>_mm_load_ps</code> which sets <code>__m128</code>
-        values in one instruction. But this requires that our data is in contiguous array because
-        <code>_mm_load_ps</code> takes an pointer as an argument and uses the first 4 values it finds. This can be done
-        by using what is called Structure of Arrays (SoA) which requires use to rethink how we use our entities and
-        therfore restructure it. Instead of having <code>array</code> of <code>Entity</code> classes we now have an
-        class which which will contains array of attributes of each entity like so:
+        What would be convenient is to be able to use <code>_mm_load_ps</code> which sets <code>__m128</code> values in
+        one instruction. But this requires that our data is in a contiguous array because <code>_mm_load_ps</code> takes
+        a pointer as an argument and uses the first 4 values it finds. This can be done by using what is called
+        Structure of Arrays (SoA) which requires us to rethink how we use our entities and therefore restructure them.
+        Instead of having an <code>array</code> of <code>Entity</code> classes we now have a class that will contain
+        <code>array</code> of attributes of each entity like so:
     </p>
     <CodeViewer @code={{this.cpp_snippet_13}} />
     <p style="text-align: justify;">
-        This might look counterintuitive but doing things this way has many benefits one of which is performance. I wont
-        go into details about why it is so but the gist is cache efficiency. For our purpose having a data structure
-        like this what does it mean? Well, it means that we are now able to make use of <code>_mm_load_ps</code> because
-        all of our values are in a contiguous array.
+        This might look counterintuitive but doing things this way has many benefits one of which is performance. I
+        won't go into details about why it is so but the gist is cache efficiency. For our purpose of having a data
+        structure like this, what does it mean? Well, it means that we are now able to make use of
+        <code>_mm_load_ps</code> because all of our values are in a contiguous array.
     </p>
     <div class="text-center">
         <img src="/images/tutorials/simd/efficient_data_retrieval.png" width="100%">
     </div>
     <br>
     <p style="text-align: justify;">
-        We can also take advantage of <code>_mm_store_ps</code> because of
-        the same reasons. The <code>_mm_store_ps</code> stores an <code>__m128</code> into a <code>float *</code> using
-        first 4 float addresses of the pointer. This allows us to set and load <code>__m128</code> values much faster.
-        Lets take a look of the final version of <code>update</code> function:
+        We can also take advantage of <code>_mm_store_ps</code> because of the same reasons. The
+        <code>_mm_store_ps</code> stores an <code>__m128</code> into a float * using the first 4 float addresses of the
+        pointer. This allows us to set and load <code>__m128</code> values much faster. Let's take a look at the final
+        version of the <code>update</code> function:
     </p>
     <CodeViewer @code={{this.cpp_snippet_14}} />
     <p style="text-align: justify;">
-        Note that in the previous code I'm actually using a cast isnted of <code>_mm_load_ps</code> thats because it
-        actually takes an <code>float const *</code> as an argument so to avoid headaches I've ust used cast. Also our
-        <code>for loop</code> is a lote smaller compared to previous one. And after performance measurement these are
+        Note that in the previous code I'm using a cast instead of <code>_mm_load_ps</code> that's because it takes a
+        <code>float const *</code> as an argument so to avoid headaches I've just used cast. Also, our
+        <code>for loop</code> is a lot smaller compared to the previous one. And after performance measurement these are
         the results:
     </p>
     <div class="text-center">
@@ -381,25 +381,25 @@
     </p>
     <p style="text-align: justify;">
         Those who have sharp eyes I'm sure you've already found more places where you can improve this code but since
-        this is a SIMD tutorial I've left them itentionaly. I might add those improvements to Github project but for now
-        I leave it as it is. And with that we conclude this tutorial.
+        this is a SIMD tutorial I've left them intentionally. I might add those improvements to the Github project but
+        for now, I leave it as it is. And with that, we conclude this tutorial.
     </p>
     <h2>Conclusion</h2>
     <p style="text-align: justify;">
         I know that this is a long tutorial but I wanted to cover not only the basics of SIMD Instructions but also got
         through one example where we convert a simple code to a SIMD version and another example where we convert the
-        code to an branchless version first and then to a SIMD version. Not all code can be converted to SIMD some must
-        be done in parts (i.e. converting to SIMD back and forth multiple times) specially when you have more complex
+        code to a branchless version first and then to a SIMD version. Not all code can be converted to SIMD some must
+        be done in parts (i.e. converting to SIMD back and forth multiple times) especially when you have more complex
         conditionals that the complete operations cannot be represented mathematically.
     </p>
     <p style="text-align: justify;">
-        I deliberately omitted the performance measurement code because I don't want the you to focus too much about
-        it. But if you feel you need to know how it was done you can always check the <a
-            href="https://github.com/vadimsZinatulins/SIMD-Instructions">Github</a> project, the code you'll find there
-        still contains them.
+        I deliberately omitted the performance measurement code because I don't want you to focus too much on it. But if
+        you feel you need to know how it was done you can always check the <a
+            href="https://github.com/vadimsZinatulins/SIMD-Instructions">Github</a> project, the code you'll find still
+        contain them.
     </p>
     <p style="text-align: justify;">
-        I hope you've learned something from here. Also if you have found any typo or something needs more
+        I hope you've learned something from here. Also if you have found any typo or something that needs more
         clarifications feel free to reach me via <a href="mailto: vadimz2@hotmail.com">email</a> as it I use most.
     </p>
 </div>
