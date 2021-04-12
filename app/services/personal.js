@@ -17,7 +17,7 @@ export default class PersonalService extends Service {
         new PersonalLink('mailto: vadimz2@hotmail.com', 'far fa-envelope')
     ];
     workExperience = [
-        new WorkExperience('2018 - Present', 'Softinsa, Tomar', 'Junio Programmer I', [
+        new WorkExperience('2018 - Present', 'Softinsa, Tomar', 'Junior Programmer I', [
             'Front end development with EmberJS',
             'Back end development with Nodejs & ExpressJS',
             'Postgres SQL Database management',
