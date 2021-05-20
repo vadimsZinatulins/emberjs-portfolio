@@ -27,7 +27,7 @@ export default class PersonalService extends Service {
     ];
     education = [
         new Education('2017 - Present', 'Licenciatura Engenharia Informática', 'Instituto Politécnico Tomar, Tomar'),
-        new Education('2015 - 2017', 'Curso Técnico Superior Profissional', 'Instituto Politécnico Tomar, Tomar'),
+        new Education('2015 - 2017', 'Curso Técnico Superior Profissional em Tecnologia e Programação em Sistemas de Informação', 'Instituto Politécnico Tomar, Tomar'),
         new Education('2013 - 2015', 'Curso Profissional em Técnico de Eletrónica, Automação e Computadores', 'Escola Secundária Doutor Solano de Abreu, Abrantes')
     ];
     skills = [
