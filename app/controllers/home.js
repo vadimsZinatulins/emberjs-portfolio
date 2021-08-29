@@ -2,13 +2,6 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import Book from '../classes/book';
 
-'This one might be somewhat contradictory compared with' +
-    ' other books. It is already an old book but still contains some precious knowledge that is good' +
-    ' to have under your toolbelt. This book goes over some well-known data structures, gives you' +
-    ' comprehensive implementations, and some examples where you can apply or how you can apply' +
-    ' this data structure in a game with lots of code samples. But be warned, if you already know' +
-    ' data oriented design you might not find this book very funny.'
-
 export default class HomeController extends Controller {
     @service personal;
 

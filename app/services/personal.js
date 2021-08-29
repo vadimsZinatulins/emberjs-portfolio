@@ -26,7 +26,8 @@ export default class PersonalService extends Service {
         ])
     ];
     education = [
-        new Education('2017 - Present', 'Licenciatura Engenharia Informática', 'Instituto Politécnico Tomar, Tomar'),
+        new Education('2021 - Present', 'Mestrado em Engenharia de Inteligência Artificial', 'Instituto Superior de Engenharia do Porto, Porto'),
+        new Education('2017 - 2021', 'Licenciatura Engenharia Informática', 'Instituto Politécnico Tomar, Tomar'),
         new Education('2015 - 2017', 'Curso Técnico Superior Profissional em Tecnologia e Programação em Sistemas de Informação', 'Instituto Politécnico Tomar, Tomar'),
         new Education('2013 - 2015', 'Curso Profissional em Técnico de Eletrónica, Automação e Computadores', 'Escola Secundária Doutor Solano de Abreu, Abrantes')
     ];
@@ -70,8 +71,8 @@ export default class PersonalService extends Service {
     }
 
     get resumedInfo() {
-        return `My name is Vadims Zinatulins and I'm ${this.age} years old. I'm a mostly self-taught programmer but I'm currently studying 
-        computer science at Instituto Politécnico de Tomar (Portugal). Working at Softinsa (an IBM group company) as a full-stack developer. 
-        My most interests are around game development (mostly game engine) but I do enjoy any kind of development and open to new challenges.`
+        return `My name is Vadims Zinatulins and I'm ${this.age} years old. I'm a mostly self-taught programmer but I do have a CS degree from 
+        Instituto Politécnico de Tomar (Portugal). I'm employed at Softinsa (an IBM group company) as a full-stack developer. 
+        My interests are around game development (mainly game engines) and machine learning but I do enjoy any kind of development and open to new challenges.`
     }
 }
