@@ -5,6 +5,25 @@ pre code {
     padding: 6px;
 }
 
-.popover{
+.popover {
     max-width: 600px !important;
+}
+
+.my-home-picture {
+    position: relative;
+    width: 100%;
+    height: 800px;
+    background-image: url('/images/me/me_outside.jpg');
+    background-size: cover;
+    background-position: 50%;
+    filter: grayscale(60%);
+}
+
+.my-home-picture h2 {
+    color: white;
+    position: absolute;
+    bottom: 10%;
+    left: 35%;
+    font-family: 'Dancing Script', cursive;
+    font-size: 64px;
 }
