@@ -17,7 +17,10 @@ export default class PersonalService extends Service {
         new PersonalLink('mailto: vadimz2@hotmail.com', 'far fa-envelope')
     ];
     workExperience = [
-        new WorkExperience('2018 - Present', 'Softinsa, Tomar', 'Junior Programmer I', [
+        new WorkExperience('2022 - Present', 'Critical Techworks, Porto', 'Rockstar Developer', [
+            'C++ Academy'
+        ]),
+        new WorkExperience('2018 - 2021', 'Softinsa, Tomar', 'Junior Programmer I', [
             'Front end development with EmberJS',
             'Back end development with Nodejs & ExpressJS',
             'Postgres SQL Database management',
@@ -26,7 +29,7 @@ export default class PersonalService extends Service {
         ])
     ];
     education = [
-        new Education('2021 - Present', 'Mestrado em Engenharia de Inteligência Artificial', 'Instituto Superior de Engenharia do Porto, Porto'),
+        // new Education('2021 - Present', 'Mestrado em Engenharia de Inteligência Artificial', 'Instituto Superior de Engenharia do Porto, Porto'),
         new Education('2017 - 2021', 'Licenciatura Engenharia Informática', 'Instituto Politécnico Tomar, Tomar'),
         new Education('2015 - 2017', 'Curso Técnico Superior Profissional em Tecnologia e Programação em Sistemas de Informação', 'Instituto Politécnico Tomar, Tomar'),
         new Education('2013 - 2015', 'Curso Profissional em Técnico de Eletrónica, Automação e Computadores', 'Escola Secundária Doutor Solano de Abreu, Abrantes')
@@ -70,9 +73,9 @@ export default class PersonalService extends Service {
         return new Date(new Date() - new Date(1995, 1, 10)).getFullYear() - 1970;
     }
 
-    get resumedInfo() {
+    get info() {
         return `My name is Vadims Zinatulins and I'm ${this.age} years old. I'm a mostly self-taught programmer but I do have a CS degree from 
-        Instituto Politécnico de Tomar (Portugal). I'm employed at Softinsa (an IBM group company) as a full-stack developer. 
+        Instituto Politécnico de Tomar (Portugal). I'm currently employed at Critical Techworks (a BMW and Critical Software company) as a C++ developer. 
         My interests are around game development (mainly game engines) and machine learning but I do enjoy any kind of development and open to new challenges.`
     }
 }
