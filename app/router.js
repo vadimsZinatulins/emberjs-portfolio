@@ -12,7 +12,9 @@ Router.map(function () {
   this.route('tutorials', function() {
     this.route('simd');
     this.route('mathematics', function() {
-      this.route('part-1');
+      this.route('planes');
+      this.route('3d-vectors');
+      this.route('3x3-matrices');
     });
   });
   this.route('about');
