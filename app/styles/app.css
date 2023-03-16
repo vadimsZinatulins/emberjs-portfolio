@@ -29,5 +29,17 @@ pre code {
 }
 
 .justify-content {
-  text-align: justify;
+    text-align: justify;
+}
+
+.darkgray-bg-color {
+    background-color: darkgray;
+}
+
+.lightgreen-bg-color {
+    background-color: lightgreen;
+}
+
+.yellow-bg-color {
+    background-color: yellow;
 }

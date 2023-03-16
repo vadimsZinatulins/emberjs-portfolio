@@ -1,2 +1,85 @@
-{{page-title "Tasc"}}
-{{outlet}}
+<div class="container">
+    <h1>Time and Space Complexity</h1>
+    <hr>
+    <h2>Motivation</h2>
+    <p class="justify-content">
+        Let's suppose that you wrote an algorithm and it runs very fast for a specific input. You run it few times to make sure it is really fast. Then
+        ask a friend to run the algorithm so, you share it with him and runs it. But this time the algorithm is not so fast and as your friend adds more
+        data to input the algorithm gets worst and worst. You run it on your computer again and it is slow too. But why? Why it was fast and now it is slow?
+        Measuring performance of an algorithm is not a trivial task because each time you run it, it is most likely to produce different results. This is
+        because you CPU is doing multiple things at the same time so it is not guaranteed that you algorithm will have always a change to run completely in
+        one go (CPU might and will interrupt to do other things and then will come back). Also, not all CPUs are made equal. Which means that running some
+        instructions in one CPU is not guaranteed to have the same performance running same instructions in another CPU.
+        <br>
+        And because of this there is no exact metric to measure the performance of an algorithm. But, there are estimates to predict how the algorithm will
+        be affected as the input grows in size.
+    </p>
+    <h2>Big O Notation</h2>
+    <p class="justify-content">
+        Big O Notation indicates how the number of operations grows in relation to the input. Let's start with a simple example:
+        If the input will have 10 elements or 100 it doesn't matter because this function will only perform one operation (if you don't count the return).
+        So you can say that it will have a <code>constant</code> speed and this it is represented as <code>O(1)</code>. Let's
+    </p>
+    <CodeViewer @code={{this.cpp_snippet_1}} />
+    <p class="justify-content">
+        If the input will have 10 elements or 100 it doesn't matter because this function will only perform one operation (if you don't count the return).
+        So you can say that it will have a <code>constant</code> speed and this it is represented as <code>O(1)</code>.
+    </p>
+    <p class="justify-content">
+        Let's look at another simple example:
+    </p>
+    <CodeViewer @code={{this.cpp_snippet_2}} />
+    <p class="justify-content">
+        We'll look at it line by line:
+        <ul>
+          <li>
+            <b>Line 1:</b> We'll count this validation as one operation (you could argue that retrieving the size is yet another operation if you want),
+            this one is <code>O(1)</code>.
+          </li>
+          <li>
+            <b>Line 2:</b> This will also be executed once so it is <code>O(1)</code>.
+          </li>
+          <li>
+            <b>Line 3:</b> Simple assignment so it is <code>O(1)</code>.
+          </li>
+          <li>
+            <b>Line 4:</b> As above, another <code>O(1)</code>.
+          </li>
+          <li>
+            <b>Line 5:</b> We'll count the return as one operations too, and since it will only run once at best it is also <code>O(1)</code>.
+          </li>
+        </ul>
+        So what is the time complexity of this Algorithm? Well, we'll do <code>O(1) + O(1) + O(1) + O(1) + O(1) = O(1)</code>. Wait, but why not
+        <code>O(5)</code>? Well it is because the <code>5</code> doesn't tell us nothing about the input, all these factors are not being considered
+        when representing Big O Notation so it all boils down to O(1).
+    </p>
+    <p class="justify-content">
+        Where two examples were simple, let us look at a more complexe example:
+    </p>
+    <CodeViewer @code={{this.cpp_snippet_3}} />
+    <p class="justify-content">
+        <ul>
+          <li>
+            <b>Line 1:</b> Simple assignment. <code>O(1)</code>, easy.
+          </li>
+          <li>
+            <b>Line 2:</b> So here we have an assignment (<code>int i = 0</code>), a comparison (<code>i &lt; numbers.size()</code>) and
+            an increment (<code>i++</code>). But how many times each operation will be executed? Well the assignment will be executed only
+            once so it is <code>O(1)</code>. For the other two it is a little bit trickier because these two will be executed as many times as
+            there are elements in the input. Since we do not know how many elements will be there, well say it will run <code>n</code> times
+            which will make both the assignment and the increase <code>O(n)</code>.
+          </li>
+          <li>
+            <b>Line 3:</b> This line also depends on the size of the input and it will run as many times as there are elements in the input. Because
+            of this, this one is also <code>O(n)</code>.
+          </li>
+          <li>
+            <b>Line 4:</b> This will only run once so it is <code>O(1)</code>.
+          </li>
+        </ul>
+        So what is the time complexity of this algorith? Well, <code>O(1) + O(1) + O(n) + O(n) + O(n) + O(1) = O(1) + O(n) = O(1 + n) = O(n)</code>.
+        The Big O Notation cares only about the worst case scenario and with huge input, <code>n</code> can be so large that will make the <code>constant</code>
+        part completely irrelevant. Because of this, this algorithm is <code>O(n)</code> which is also known as <code>linear</code> because the number of
+        operations will linearly grow with the input size.
+    </p>
+</div>

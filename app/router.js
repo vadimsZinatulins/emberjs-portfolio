@@ -14,6 +14,15 @@ Router.map(function () {
 
     this.route('dsaa', function() {
       this.route('tasc');
+      this.route('arrays');
+      this.route('linkedlists');
+      this.route('stacks');
+      this.route('queues');
+      this.route('trees');
+      this.route('heaps');
+      this.route('graphs');
+      this.route('hashtables');
+      this.route('disjset');
     });
   });
   this.route('about');
