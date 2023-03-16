@@ -11,6 +11,10 @@ Router.map(function () {
 
   this.route('tutorials', function() {
     this.route('simd');
+
+    this.route('dsaa', function() {
+      this.route('tasc');
+    });
   });
   this.route('about');
 });

@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { htmlSafe } from '@ember/template';
 import { action } from '@ember/object';
+import TutorialHeader from '../../classes/tutorialHeader';
 import cpp_snippet_1 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_1';
 import cpp_snippet_2 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_2';
 import cpp_snippet_3 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_3';
@@ -15,6 +16,14 @@ import cpp_snippet_11 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippe
 import cpp_snippet_12 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_12';
 import cpp_snippet_13 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_13';
 import cpp_snippet_14 from 'vadims-zinatulins-portfolio/snippets/simd/cpp_snippet_14';
+
+export let header = new TutorialHeader(
+    "SIMD Tutorial",
+    "03/29/2021",
+    "Simple SIMD tutorial with practical examples. Some of these are conversions of code to a SIMD version and then measure the impact it has on performance and use the chart to visualize the results and the scalability. The last example is a little bit more complex since it goes through converting code to a branchless version before applying SIMD",
+    ["C++", "Intrinsic Operations", "SIMD Instructions", "Vectorization"],
+    "tutorials.simd"
+);
 
 export default class TutorialsSimdController extends Controller {
     cpp_snippet_1 = cpp_snippet_1;
@@ -48,7 +57,7 @@ export default class TutorialsSimdController extends Controller {
     get htmlSafeInstrocutionInfo() {
         return htmlSafe(`
         <p>
-            Event though CPU executes this in one instruction it doesn't mean it executes it in one single 
+            Event though CPU executes this in one instruction it doesn't mean it executes it in one single
             <a href="https://www.intel.com/content/www/us/en/gaming/resources/cpu-clock-speed.html">CPU Clock</a>. Actually it will
             take 3 to 4 cycles to complete the instruction. Still it is much faster than adding four <code>floats</code> individually.
         </p>
@@ -81,7 +90,7 @@ export default class TutorialsSimdController extends Controller {
     get htmlSafeDod() {
         return htmlSafe(`
         <p>
-            This is a very complex topic but fortunately there is a <a href="https://github.com/dbartolini/data-oriented-design">github</a> 
+            This is a very complex topic but fortunately there is a <a href="https://github.com/dbartolini/data-oriented-design">github</a>
             project that has all resources that you need to understand it.
         </p>
         <p>

@@ -1,0 +1,12 @@
+<li class="list-group-item">
+    <h5 class="card-title">
+        <LinkTo @route={{@card.route}}>{{@card.title}}</LinkTo> <small class="text-muted">{{@card.date}}</small>
+    </h5>
+    <p class="justify-content">{{@card.description}}</p>
+    <p>
+        <i class="fas fa-tags"></i> Tags:
+        {{#each @card.tags as |tag|}}
+          <span class="badge badge-info">{{tag}}</span>
+        {{/each}}
+    </p>
+</li>

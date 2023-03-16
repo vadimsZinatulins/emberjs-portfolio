@@ -1,32 +1,6 @@
 <br>
 <div class="container-fluid">
     <div class="row justify-content-lg-center">
-        <div class="col-lg-10">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <h5 class="card-title">
-                        <LinkTo @route="tutorials.simd">SIMD Tutorial</LinkTo> <small
-                            class="text-muted">03/29/2021</small>
-                    </h5>
-                    <p style="text-align: justify;">
-                        Simple SIMD tutorial with practical examples. Some of these are conversions of code to a SIMD
-                        version
-                        and then measure the impact it has on performance and use the chart to visualize the results and
-                        the
-                        scalability. The last example is a little bit more complex since it goes through converting code
-                        to
-                        a
-                        branchless version before applying SIMD.
-                    </p>
-                    <p>
-                        <i class="fas fa-tags"></i> Tags:
-                        <span class="badge badge-info">C++</span>
-                        <span class="badge badge-info">Intrinsic Operations</span>
-                        <span class="badge badge-info">SIMD Instructions</span>
-                        <span class="badge badge-info">Vectorization</span>
-                    </p>
-                </li>
-            </ul>
-        </div>
+        <CardList @cards={{this.tutorials}} />
     </div>
 </div>
